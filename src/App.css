@@ -1,0 +1,267 @@
+.header {
+  position: relative;
+  max-width: 100%;
+  height: 50px;
+  background-color: white;
+  border: 1px;
+  box-shadow: 5px 5px 5px #e9e9e9;
+  z-index: 99;
+}
+.menu {
+  position: absolute;
+  top: 10px;
+  left: 45px;
+  font-size: 19px;
+  cursor: pointer;
+  color: lightblue;
+}
+.user {
+  position: absolute;
+  top: 11px;
+  right: 16px;
+  background-color: rgb(84, 84, 182);
+  width: 94px;
+  border-radius: 101rem;
+  height: 30px;
+  cursor: pointer;
+}
+.notification {
+  position: absolute;
+  top: 12px;
+  right: 148px;
+  font-size: 19px;
+  cursor: pointer;
+}
+.avatar {
+  padding-left: 6px;
+  padding-top: 0px;
+  background-color: white;
+  width: 25px;
+  height: 70%;
+  border-radius: 50%;
+  margin-left: 7px;
+  margin-top: 4.5px;
+  font-size: 14px;
+}
+span.text {
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  font-size: 13px;
+  color: white;
+}
+.body {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #adc7c8;
+  width: 100%;
+  height: 1000px;
+}
+i.fas.fa-user {
+  color: blueviolet;
+}
+.background {
+  position: absolute;
+  background-image: linear-gradient(white, rgb(255 255 255));
+  max-width: 100%;
+  width: 95%;
+  height: 90%;
+  top: 5%;
+  left: 2.5%;
+  border-radius: 10px;
+  border: 1px;
+  box-shadow: 1px 1px 1px #e9e9e9;
+}
+
+ul {
+  height: 100%;
+  list-style: none;
+  background-image: linear-gradient(white, rgb(207, 189, 189));
+  width: 215px;
+}
+
+.object-sidebar{
+  display: flex;
+}
+img.logo-img {
+  width: 66px;
+  height: 91px;
+}
+.logo {
+  padding-top: 20px;
+  padding-left: 27px;
+}
+li {
+  padding-left: 19px;
+  list-style: none;
+  
+}
+.object-sidebar {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.side-bar {
+  top: 0;
+  position: absolute;
+  height: 1050.425px;
+  max-height: 1081.425px;
+  transition: 0.4s;
+  z-index: 101;
+}
+nav {
+  height: 100%;
+  max-height: 100%;
+  z-index: 10000!important;
+}
+
+.after-click {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+}
+.ground-gray {
+  position: absolute;
+  background-color: #414040ad;
+  width: 1518.5px;
+  max-height: 177%;
+  height: 1049.425px;
+  margin-left: 0;
+  cursor: pointer;
+  transition: 0.4s;
+  top: 0px;
+  z-index: 99;
+}
+.text-menu{
+  color: black;
+}
+.trangchu{
+    width: 100%;
+    height: 895px;
+}
+
+.hidden-ground{
+  visibility: hidden;
+  opacity: 0;
+} 
+
+.hidden-sidebar{
+  transform: translateX(-250px);
+  z-index: -100!important;
+}
+
+.home-content {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+}
+
+h4.name-hopital {
+  font-size: 19px;
+  background: linear-gradient(to right, #4835a7db 0%, #9466cc54 100%);
+  background-clip: text;
+  color: transparent;
+}
+
+h1.title-hopital {
+  font-size: 43px;
+  background: linear-gradient(to right, #4835a7db 0%, #9466cc54 100%);
+  background-clip: text;
+  color: transparent;
+}
+
+.home-content-text {
+  padding-top: 305px;
+  padding-left: 182px;
+}
+
+img.hopital {
+  width: 581px;
+  height: 536px;
+  background-image: linear-gradient(white, rgb(237 236 236));
+}
+
+.home-content-image {
+  margin-top: 199px;
+  margin-right: 44px;
+}
+
+span.title-mini {
+  background: linear-gradient(to right, #b9b6c8db 0%, #978ea254 100%);
+  background-clip: text;
+  color: transparent;
+  font-size: 14px;
+}
+
+button.primary {
+  border: none;
+  background: lightblue;
+  border-radius: 89rem;
+  width: 156px;
+  height: 35px;
+  color: grey;
+  margin-top: 19px;
+}
+
+span.content-text {
+  font-size: 18px;
+}
+
+.form-content {
+  max-width: 100%;
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  border: 1px solid lightblue;
+  width: 100%;
+  height: 100%;
+}
+
+.addClass {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  height: 60%;
+  margin-top: 113px;
+  margin-left: 62px;
+}
+
+.thongbaotable {
+  margin-top: 100px;
+}
+.input-select {
+  width: 454px;
+  height: 32px;
+}
+.layer-input {
+  padding-left: 32px;
+}
+
+.input-date {
+  margin-right: 20px;
+  width: 217px;
+}
+
+p.text-side {
+  position: absolute;
+  top: 415px;
+  font-size: 15px;
+  left: 702px;
+}
+
+button.secondary {
+  border: none;
+  background-color: lightblue;
+  border-radius: 7px;
+  width: 121px;
+  height: 31px;
+  box-shadow: 1px 1px cadetblue;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 13px;
+  color: gray;
+}
