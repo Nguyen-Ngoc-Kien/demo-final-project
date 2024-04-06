@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import {Routes, Route, Link} from 'react-router-dom';
-import Certification from '../pages/Certification';
-import Grade from '../pages/Grade';
-import Department from '../pages/Department';
-import Configuration from '../pages/Configuration';
-import Course from '../pages/Course';
-import Emulator from '../pages/Emulator';
-import Home from '../pages/Home';
-import Signout from '../pages/Signout';
-import User from '../pages/User';
-import Location from '../pages/Locate';
-import AddClass from '../pages/AddClass';
+import {Link} from 'react-router-dom';
 
 function HandleMenu(){
   const [on,setOn] = useState(false)
@@ -124,14 +113,14 @@ function HandleMenu(){
                 <i class="fas fa-sign-out-alt"></i>
               </span>
               <li>
-              <Link to="/Signout" className='text-menu' onClick={() => HandleClick()}>Đăng xuất</Link>
+              <Link to="/Login" className='text-menu' onClick={() => HandleClick()}>Đăng xuất</Link>
             </li>
             </div>
           </ul>
         </nav>
       </div>
       <div className={`ground-gray ${on ? '' : 'hidden-ground'}`} onClick={() => HandleClick()}></div>
-      <Routes>
+      {/* <Routes>
           <Route 
           path='/Certification' element={<Certification/>}
           />
@@ -151,7 +140,7 @@ function HandleMenu(){
           path='/Emulator' element={<Emulator/>}
           />
           <Route 
-          path='/Signout' element={<Signout/>}
+          path='/Login' element={<Login/>}
           />
           <Route 
           path='/Configuration' element={<Configuration/>}
@@ -168,7 +157,7 @@ function HandleMenu(){
           <Route 
           path='/Add-class' element={<AddClass/>}
           />
-        </Routes>
+        </Routes> */}
     </div>
   )
 }

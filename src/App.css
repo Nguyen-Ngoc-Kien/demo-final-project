@@ -133,8 +133,9 @@ nav {
   top: 0px;
   z-index: 99;
 }
-.text-menu{
+.text-menu {
   color: black;
+  text-decoration: none;
 }
 .trangchu{
     width: 100%;
@@ -265,3 +266,426 @@ label {
   font-size: 13px;
   color: gray;
 }
+
+.login-container{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+  padding-top:60px;
+}
+
+.text-title{
+  font-weight: 600;
+  padding-bottom: 3px;
+}
+
+input.login-input {
+  padding: 12px 7px;
+  outline: none;
+  margin-bottom: 7px;
+  background: #1618230f;
+  border: #1618230f;
+  border-radius: 3px;
+  width: 100%;
+
+  &:hover{
+    background-color: #dedede;
+  }
+
+}
+input.login-input {
+    padding: 12px 7px;
+    outline: none;
+    margin-bottom: 7px;
+    background: #1618230f;
+    border: #1618230f;
+    border-radius: 3px;
+    width: 100%;
+}
+button.login-input{
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  cursor: not-allowed;
+
+  &.active{
+    cursor: pointer;
+    background-color: #fe2c55;
+    color: white;
+  }
+}
+
+.Go-back{
+  text-align: center;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+i.fas.fa-eye-slash {
+  position: absolute;
+  right: 41px;
+  top: 195px;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+i.fas.fa-eye {
+  position: absolute;
+  right: 41px;
+  top: 195px;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.menu-ngang {
+  display: flex;
+  margin-left: 135px;
+}
+
+.object-ngang {
+  padding-top: 12px;
+  padding-left: 37px;
+  padding-bottom: 14px;
+  display: flex;
+  width: 180px;
+
+  &:hover{
+    background-color: #dedede;
+    cursor: pointer;
+  }
+}
+
+a{
+  text-decoration: none!important;
+}
+
+.title-menu {
+  position: absolute;
+  top: 6px;
+  left: 39px;
+  font-size: 23px;
+  font-weight: 700;
+  color: black;
+}
+
+.train{
+  width: 110px;
+}
+
+img.img-forest {
+    width: 100%;
+    height: 259px;
+}
+
+.nen-mo-1 {
+    background: #6b687b7a;
+    width: 100%;
+    height: 259px;
+    position: absolute;
+}
+
+.nen-mo-2 {
+    background: #6b687b1f;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 309px;
+}
+
+.background-content {
+    margin: auto;
+    width: 69%;
+    height: 100%;
+}
+
+.background-content {
+  position: relative;
+  width: 84%;
+  height: 590px;
+  background: white;
+  top: -100px;
+  left: 0px;
+  border-radius: 18px;
+}
+
+span.class {
+  position: absolute;
+  left: 48%;
+  top: -53px;
+  font-size: 26px;
+  color: white;
+  font-weight: 500;
+}
+
+span.List-Class {
+  position: absolute;
+  color: red;
+  font-size: 20px;
+  font-weight: 500;
+  top: 46px;
+  left: 32px;
+}
+
+hr.gach-chan-class-1 {
+  position: absolute;
+  top: 64px;
+  width: 96%;
+  left: 17px;
+}
+
+.Search {
+  position: absolute;
+  left: 34px;
+  top: 73px;
+  z-index: 100;
+}
+
+input.search-input {
+  width: 239px;
+}
+
+hr.gach-chan-class-2 {
+  position: absolute;
+  top: 123px;
+  width: 96%;
+  left: 17px;
+}
+
+.layer-class {
+  border: 2px solid #add8e661;
+  top: 152px;
+  left: 0px;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  width: 383px;
+  height: 359px;
+  margin-left: 30px;
+}
+
+img.science {
+  position: absolute;
+  width: 100%;
+  height: 236px;
+}
+
+span.class-name {
+  position: absolute;
+  top: 220px;
+  left: 25px;
+}
+
+span.course-name {
+  position: absolute;
+  top: 241px;
+  left: 25px;
+  color: lightblue;
+}
+
+hr.gach-chan-class-3 {
+  position: absolute;
+  top: 255px;
+  left: 25px;
+  width: 88%;
+}
+
+.tinh-trang {
+  position: absolute;
+  top: 12px;
+  left: 253px;
+  background-color: green;
+  width: 112px;
+  color: white;
+  border-radius: 102px;
+  padding-left: 11px;
+}
+
+.time-begin {
+  position: absolute;
+  top: 283px;
+  left: 25px;
+  font-size: 13px;
+  background-color: #d8d6d6;
+  width: 40%;
+  height: 22px;
+  padding-left: 7px;
+  border-radius: 99px;
+}
+
+.time-process {
+  position: absolute;
+  top: 284px;
+  left: 195px;
+  font-size: 13px;
+  background-color: #d8d6d6;
+  width: 18%;
+  height: 22px;
+  padding-left: 7px;
+  border-radius: 99px;
+}
+
+.time-schedule {
+  position: absolute;
+  top: 319px;
+  left: 23px;
+  font-size: 13px;
+  background-color: #d8d6d6;
+  width: 66%;
+  height: 22px;
+  padding-left: 9px;
+  border-radius: 99px;
+}
+
+.chuyen-trang {
+  margin-left: 587px;
+  margin-top: 191px;
+}
+
+span.stt-trang {
+  background: #aecbcc;
+  border-radius: 50%;
+  margin-left: 32px;
+  margin-right: 32px;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  padding-left: 13px;
+  padding-top: 1px;
+  font-size: 24px;
+  color: #4f522d;
+  font-weight: 600;
+}
+
+i.fas.fa-arrow-left {
+  font-size: 31px;
+  color: lightblue;
+  cursor: pointer;
+}
+
+i.fas.fa-arrow-right {
+  font-size: 31px;
+  color: lightblue;
+  cursor: pointer;
+}
+
+button.primary.pd-3 {
+  margin-left: 11px;
+}
+
+.grade {
+  padding-left: 24px;
+}
+
+.pd-4{
+  padding-left: 20px;
+}
+
+i.fas.fa-calendar-alt {
+  color: black;
+}
+
+i.fas.fa-graduation-cap {
+  color: black;
+}
+
+span.home-icon {
+  color: black;
+}
+
+.log-out {
+  position: absolute;
+  right: 0px;
+  background: #ccc3f9;
+  width: 162px;
+  height: 37px;
+  padding-left: 45px;
+  padding-top: 5px;
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hidden-user{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.grade-body {
+  margin-top: 51px;
+  margin-left: 36px;
+}
+
+span.name-col {
+  margin-right: 26px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover{
+    color: lightblue;
+  }
+}
+
+.layer-top {
+  margin-top: 20px;
+}
+
+span.title-grade {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.table-grade {
+  border: 1px solid grey;
+  height: 313px;
+  width: 1317px;
+  margin-top: 10px;
+}
+
+.grade-search {
+  margin-left: 1059px;
+  margin-top: -16px;
+}
+
+i.fas.fa-search.grade {
+  position: absolute;
+  right: 326px;
+  top: 161px;
+  font-size: 14px;
+}
+
+input.search-grade {
+  width: 241px;
+  padding-left: 29px;
+}
+
+
+.add-class {
+  margin-top: 2px;
+  margin-left: 22px;
+  width: 111px;
+  cursor: pointer;
+
+  &:hover{
+    background: #dedede69;
+  }
+}
+
+i.fas.fa-plus {
+  color: black;
+  padding-left: 6px;
+}
+
+span.add-class-grade {
+  color: black;
+  padding-left: 14px;
+}
+

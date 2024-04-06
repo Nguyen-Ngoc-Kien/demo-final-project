@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Grade = () => {
+const GradeUpper = () => {
     return (
         <div>
             Grade
@@ -8,4 +8,4 @@ const Grade = () => {
     );
 };
 
-export default Grade;
+export default GradeUpper;
