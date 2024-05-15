@@ -6,7 +6,10 @@ const changeTitle = (event) => {
 
 const AddClass = () => {
     return (
-        <div className='form-content'>
+        <div className='body'>
+        <div className='background'>
+          <div className='content'>
+          <div className='form-content'>
             <div className='addClass'>
                 <div className='layer-input'>
                     <label htmlFor="Course">Khóa học*</label>
@@ -92,10 +95,10 @@ const AddClass = () => {
                     <button className='secondary'>Tạo</button> 
                 </div>
             </div>
-            <div className='thongbaotable'>
-                This is Text
-            </div>
         </div>
+          </div>
+        </div>
+      </div>
     );
 };
 

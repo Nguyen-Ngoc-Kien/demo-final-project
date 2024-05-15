@@ -3,7 +3,10 @@ import imgHopital from '../../../data/image/Hospital-building.gif'
 
 const Home = () => {
     return (
-        <div className='home-content'>
+        <div className='body'>
+            <div className='background'>
+            <div className='content'>
+            <div className='home-content'>
             <div className='home-content-text'>
                 <h4 className='name-hopital'>
                     Polycell
@@ -25,6 +28,10 @@ const Home = () => {
                 <img src={imgHopital} alt='' className='hopital'/>
             </div>
         </div>
+            </div>
+            </div>
+        </div>
+
     );
 };
 

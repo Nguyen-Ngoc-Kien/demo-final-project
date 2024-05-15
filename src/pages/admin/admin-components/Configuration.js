@@ -3,7 +3,13 @@ import React from 'react';
 const Configuration = () => {
     return (
         <div>
-            Configuration
+                        <div className='body'>
+            <div className='background'>
+            <div className='content'>
+                
+            </div>
+            </div>
+            </div>
         </div>
     );
 };

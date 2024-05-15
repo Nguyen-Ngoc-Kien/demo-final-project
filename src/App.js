@@ -1,18 +1,23 @@
 import './App.css';
-import AdminWork from './layout/AdminWork';
-// import Login from './layout/Login'
+import Login from './layout/Login'
 // import Upper from './layout/Upper'
+// import AdminWork from './layout/AdminWork';
 // import Trainee from './layout/Trainee';
 // import Trainer from './layout/Trainer';
+// import ListQuiz from './pages/quizz/ListQuiz';
+// import TableUser from './UI/TableUser'
+
 
 function App() {
   return (
   <div>
-    {/* <Login></Login>
-    <Upper></Upper>  */}
-    <AdminWork></AdminWork>
-    {/* <Trainee></Trainee>
-    <Trainer></Trainer> */}
+    {/* <ListQuiz></ListQuiz> */}
+    {/* <TableUser></TableUser>  */}
+    <Login></Login> 
+    {/* <Upper></Upper>  */}
+    {/* <AdminWork></AdminWork> */}
+    {/* <Trainee></Trainee> */}
+    {/* <Trainer></Trainer> */}
   </div>
   );
 }

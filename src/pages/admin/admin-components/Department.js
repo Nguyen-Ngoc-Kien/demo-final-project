@@ -3,7 +3,13 @@ import React from 'react';
 const Department = () => {
     return (
         <div>
-            Department
+            <div className='body'>
+                <div className='background'>
+                <div className='content'>
+                    
+                </div>
+                </div>
+            </div>
         </div>
     );
 };

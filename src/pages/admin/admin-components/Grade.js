@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import TableClass from './../../../UI/TableClass/TableClass'
 const Grade = () => {
     return (
-        <div className='grade-body'>
+        <div className='body'>
+            <div className='background w-m'>
+            <div className='content'>
+            <div className='grade-body'>
             <span className='title-grade'>Danh Sách Lớp Học</span>
             <div className='layer-top'>
                 <span className='name-col'>TẤT CẢ</span>
@@ -25,9 +29,15 @@ const Grade = () => {
                         <input type='text' placeholder='Tìm kiếm...' className='search-grade'></input>
                     </div>
                 </div>
-                <div className='col-grade'></div>
+                <div className='col-grade'>
+                    <TableClass></TableClass> 
+                </div>
             </div>
         </div>
+            </div>
+            </div>
+        </div>
+
     );
 };
 

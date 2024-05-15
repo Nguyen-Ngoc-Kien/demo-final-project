@@ -4,6 +4,12 @@ import MyClass from './../trainer-components/Myclass';
 import Home from '../trainer-components/Home';
 import Schedule from '../trainer-components/Schedule';
 import Login from '../../Signout';
+import CourseDetails from '../trainer-components/CourseDetails';
+import AddAssignment from '../trainer-components/AddAssignment';
+import Assignment from '../trainer-components/Assignment';
+import Addquiz from '../trainer-components/Addquiz';
+import Addresource from '../trainer-components/Addresource';
+import Quiz from './../trainer-components/Quiz'
 
 const Body = () => {
     return (
@@ -23,6 +29,24 @@ const Body = () => {
           />
           <Route 
           path='/Calendar' element={<Schedule/>}
+          />
+          <Route 
+          path='/My-Class/Course-Detail' element={<CourseDetails/>}
+          />
+          <Route 
+          path='/My-Class/Course-Detail/add-assignment' element={<AddAssignment/>}
+          />
+          <Route 
+          path='/assignment' element={<Assignment/>}
+          />
+          <Route 
+          path='/My-Class/Course-Detail/add-homework' element={<Addquiz/>}
+          />
+          <Route 
+          path='/My-Class/Course-Detail/add-link-assignment' element={<Addresource/>}
+          />
+          <Route 
+          path='/quiz' element={<Quiz/>}
           />
         </Routes>
     </div>

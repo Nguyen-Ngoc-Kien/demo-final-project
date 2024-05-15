@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import {Routes, Route, Link} from 'react-router-dom';
-import HomeUpper from '../upper-components/HomeUpper';
-import GradeUpper from '../upper-components/GradeUpper';
-import ScheduleUpper from '../upper-components/ScheduleUpper';
-import Login from './../../../layout/Login';
+import { Link} from 'react-router-dom';
+
 
 function HandleMenu(){
   const [on,setOn] = useState(false)
@@ -76,23 +73,6 @@ function HandleMenu(){
         </nav>
       </div>
       <div className={`ground-gray ${on ? '' : 'hidden-ground'}`} onClick={() => HandleClick()}></div>
-      <Routes>
-            <Route 
-          path='/Home' element={<HomeUpper/>}
-          />
-            <Route 
-          path='/' element={<HomeUpper/>}
-          />
-            <Route 
-          path='/Grade' element={<GradeUpper/>}
-          />
-            <Route 
-          path='/Schedule' element={<ScheduleUpper/>}
-          />
-            <Route 
-          path='/Login' element={<Login/>}
-          />
-        </Routes>
     </div>
   )
 }

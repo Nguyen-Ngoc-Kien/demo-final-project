@@ -11,15 +11,13 @@ import Login from '../../../layout/Login';
 import User from '../admin-components/User';
 import Location from '../admin-components/Locate';
 import AddClass from '../admin-components/AddClass';
+import DuyetLop from '../admin-components/DuyetLop';
 
 
 const Body = () => {
     return (
     <div>
-    <div className='body'>
-      <div className='background'>
-        <div className='content'>
-        <Routes>
+            <Routes>
           <Route 
           path='/Certification' element={<Certification/>}
           />
@@ -56,10 +54,10 @@ const Body = () => {
           <Route 
           path='/Add-class' element={<AddClass/>}
           />
+          <Route 
+          path='/Emulator/approve-create-class' element={<DuyetLop/>}
+          />
         </Routes>
-        </div>
-      </div>
-    </div>
     </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-const Emulator = () => {
+
+const DuyetLop = () => {
     return (
         <div>
             <div className='body'>
@@ -9,18 +9,14 @@ const Emulator = () => {
                     <span className='title-emu'>Giả Lập</span>
                     <br></br>
                     <span className='text-script'>Chạy script</span>
-                    <Link to='Create-class'>
-                        <div className='layer-emu'>
-                            <i class="fas fa-plus emu emu-1"></i>
-                            <span className='text-emu'>TẠO LỚP</span>
-                        </div>
-                    </Link>
-                    <Link to='Approve-Create-Class'>
-                        <div className='layer-emu'>
-                            <i class="fas fa-check-circle emu"></i>
-                            <span className='text-emu'>DUYỆT LỚP</span>
-                        </div>
-                    </Link>
+                    <div className='layer-emu'>
+                        <i class="fas fa-plus emu emu-1"></i>
+                        <span className='text-emu'>TẠO LỚP</span>
+                    </div>
+                    <div className='layer-emu'>
+                        <i class="fas fa-check-circle emu"></i>
+                        <span className='text-emu'>DUYỆT LỚP</span>
+                    </div>
                     <div className='layer-emu'>
                         <i class="fas fa-times-circle emu"></i>
                         <span className='text-emu'>HỦY LỚP</span>
@@ -54,7 +50,7 @@ const Emulator = () => {
                     <span className='text-input-2-emu'>Quantity not register class</span>
                     <input type='text' className='text-emu' placeholder='0'/>
                     <input type='text' className='text-emu1' placeholder='0'/>
-                    <div className='btn-create'>CREATE</div>
+                    <div className='btn-create ap-2'>APPROVE</div>
                     <div className='noti-emu'>
                         <div className='sum-emu'>Tổng: 0</div>
                         <i class="fas fa-chevron-circle-down emu-i-1"></i>
@@ -69,4 +65,4 @@ const Emulator = () => {
     );
 };
 
-export default Emulator;
+export default DuyetLop;
