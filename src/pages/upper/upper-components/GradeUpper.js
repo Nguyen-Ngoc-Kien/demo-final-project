@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import TableCourse from './../../../UI/TableCourse/TableCourse'
 
 const GradeUpper = () => {
     return (
@@ -27,7 +28,9 @@ const GradeUpper = () => {
                         <input type='text' placeholder='Tìm kiếm...' className='search-grade'></input>
                     </div>
                 </div>
-                <div className='col-grade'></div>
+                <div className='col-grade'>
+                    <TableCourse></TableCourse>
+                </div>
             </div>
         </div>
         </div>

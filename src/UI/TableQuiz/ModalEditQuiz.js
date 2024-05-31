@@ -1,11 +1,11 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {patchUpdateUser } from '../../services/UserServices';
+import {patchUpdateCourse } from '../../services/UserServices';
 import { useState, useEffect } from 'react';
 import {toast } from 'react-toastify';
 
 
-const ModalEditUser = (props) => {
+const ModalEditQuiz = (props) => {
     const {show, handleClose, dataUserEdit,handleEditUserFromModal} = props
     const [Form,setForm] = useState({});
     const [firstName,setFirstName] = useState("")
@@ -21,7 +21,7 @@ const ModalEditUser = (props) => {
 
 const handleEditUser = async () => {
         console.log("Datauseredit >>>>", dataUserEdit)
-        let res = await patchUpdateUser(dataUserEdit.id,localStorage.getItem("access_token"))
+        let res = await patchUpdateCourse(dataUserEdit.id,localStorage.getItem("access_token"))
         console.log("Check res>>> ",res)
         if(res){
             handleEditUserFromModal({
@@ -174,4 +174,4 @@ useEffect(() => {
     )
 }
 
-export default ModalEditUser;
+export default ModalEditQuiz;

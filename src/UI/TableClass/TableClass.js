@@ -90,7 +90,7 @@ const handleDeleteUser = (user) => {
     getUsers()
   }, [])
   const getUsers = async (page) => {
-    let res = await fetchAllClass(page);
+    let res = await fetchAllClass(page,localStorage.getItem("access_token"));
     // console.log("check totalpage >>>", Math.ceil(res.length/6))
     
     if(res){

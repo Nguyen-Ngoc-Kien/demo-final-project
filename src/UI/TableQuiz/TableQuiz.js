@@ -1,18 +1,23 @@
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
-import {fetchAllUser} from '../../services/UserServices';
+import { getQuizById} from '../../services/UserServices';
 import ReactPaginate from 'react-paginate';
 import ModalAddnew from './ModalAddnew';
 import { ToastContainer, toast } from 'react-toastify';
-import ModalEditUser from './ModalEditUser';
+import ModalEditQuiz from './ModalEditQuiz';
 import _, { debounce } from 'lodash';
 import ModalConfirm from './ModalConfirm'; 
 import { CSVLink,CSVDownload } from 'react-csv';
 import Papa from 'papaparse';
+import { useParams } from 'react-router-dom';
 
 
 const TableUsers = (props) => {
+  const params = useParams();
+  const quizId = params.id
+  console.log("quizId >>>",quizId)
+
   const [listUser,setListUser] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -91,13 +96,14 @@ const handleDeleteUser = (user) => {
     getUsers()
   }, [])
   const getUsers = async (page) => {
-    let res = await fetchAllUser(page,localStorage.getItem("access_token"));
-    
+    let res = await getQuizById(quizId,localStorage.getItem("access_token"));
+    console.log("Quiz >>>",res)
     if(res){
       setTotalUsers(res.length)
       setTotalPages(Math.ceil(res.length/6))
       setListUser(res)
     }
+    console.log("List User User >>>",listUser)
 
     // console.log(">>> Check listuser ", listUser)
   }
@@ -190,12 +196,12 @@ const handleDeleteUser = (user) => {
   }
   return(
     <div className='container mt-5'>
-          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new user</button>
+          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new quiz</button>
           <div>
             <input 
             type='text'
             className='form-control' 
-            placeholder='Search by Course.... ' 
+            placeholder='Search by Quiz.... ' 
             // value={keyword}
             onChange={(event) => handleSearch(event)}  
             />
@@ -213,7 +219,7 @@ const handleDeleteUser = (user) => {
               </div>
             </th>
             <th>
-                <span>First_name</span>
+                <span>quizName</span>
                 <span>
                   <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
                   <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
@@ -221,33 +227,23 @@ const handleDeleteUser = (user) => {
             </th>
             <th>
             <div className='sort-header'>
-                <span>Last_name</span>
+                <span>topicId</span>
               </div>
             </th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Job</th>
-            <th>Detail</th>
+            <th>weight</th>
             <th>Action</th>
-            {/* <th>Trạng Thái</th>
-            <th>Thao tác</th> */}
           </tr>
         </thead>
         <tbody>
-          {listUser && listUser.length > 0 &&
+          {/* {listUser &&
             listUser.map((item,index) => {
-              if(listUser[index].isDeleted === false){
+              if(listUser.isDeleted === false){
               return(
                 <tr key={`users-${index}`}>
                   <td>{item.id}</td>
-                  <td>{item.firstName}</td>
-                  <td>{item.lastName}</td>
-                  <td>{item.gender}</td>
-                  <td>{item.phone}</td>
-                  <td>{item.job}</td>
-                  <td>
-                    <i class="far fa-eye icon-td-5"></i>
-                  </td>
+                  <td>{item.quizName}</td>
+                  <td>{item.topicId}</td>
+                  <td>{item.weight}</td>
                   <td>
                     <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
                     <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
@@ -256,7 +252,7 @@ const handleDeleteUser = (user) => {
               )
               }
             })
-          }
+          } */}
         </tbody>
       </Table>
       <ReactPaginate
@@ -298,12 +294,12 @@ const handleDeleteUser = (user) => {
         pauseOnHover
         />
 
-        <ModalEditUser
+        <ModalEditQuiz
         handleEditUserFromModal={handleEditUserFromModal}
         handleClose = {handleclosed}
         show = {isShowModalEdit}
         dataUserEdit = {dataUserEdit}
-        ></ModalEditUser>
+        ></ModalEditQuiz>
 
         <ModalConfirm
         show={isShowModalDelete}
@@ -328,7 +324,7 @@ const handleDeleteUser = (user) => {
 }
 
 
-function TableUser() {
+function TableQuiz() {
   return (
     <div>
       {TableUsers()}
@@ -336,4 +332,4 @@ function TableUser() {
   );
 }
 
-export default TableUser;
+export default TableQuiz;

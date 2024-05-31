@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loginApi, fetchUserProfile } from '../services/UserServices';
 import { ToastContainer, toast } from 'react-toastify';
 import { ScaleLoader } from "react-spinners"
-import { useNavigate} from "react-router-dom"
-import { jwtDecode } from "jwt-decode";
-import axios from './../services/Customize-aixos';
+import { Route, Routes, useNavigate} from "react-router-dom"
+import Adminwork from './../layout/AdminWork';
+import Upper from './../layout/Upper';
+import Trainer from './../layout/Trainer';
+import Trainee from './../layout/Trainee';
+
 
 const Signout = () => {
     const  navigate = useNavigate();
@@ -22,25 +25,32 @@ const Signout = () => {
         }
         let res = await loginApi(email,password)
         console.log(res)
-        let datauser = await fetchUserProfile(res.access_token)
-        console.log("data user >>>",datauser)
         if(res && res.access_token ) {
+            let datauser = await fetchUserProfile(res.access_token)
+            // console.log("Datauser >>>",datauser)
+            localStorage.setItem("role", datauser.role)
             localStorage.setItem("access_token", res.access_token)
             localStorage.setItem("refresh_token", res.access_token)
-            console.log("Role >>",datauser.role)
-            if(datauser.role === "ADMIN"){
-                navigate("/Admin")
+            if(localStorage.getItem("role") && localStorage.getItem("refresh_token") && localStorage.getItem("access_token")){
+                if(localStorage.getItem("role") === "ADMIN"){
+                    navigate("/")
+                    toast.success("Đăng nhập thành công")
+                    // console.log("role admin>>>",role)
+                }
+                else if(localStorage.getItem("role") === "UPPER"){
+                    navigate("/")
+                    toast.success("Đăng nhập thành công")
+                }
+                else if(localStorage.getItem("role") === "TRAINER"){
+                    navigate("/")
+                    toast.success("Đăng nhập thành công")
+                }
+                else if(localStorage.getItem("role") === "TRAINEE"){
+                    navigate("/")
+                    toast.success("Đăng nhập thành công")
+                }
             }
-            else if(datauser.role === "UPPER"){
-                navigate("Upper")
-            }
-            else if(datauser.role === "TRAINER"){
-                navigate("trainer")
-            }
-            else if(datauser.role === "TRAINEE"){
-                navigate("trainee")
-            }
-            toast.success("Đăng nhập thành công")
+
         }
         else{
             if(res && res.status === 400){
@@ -48,7 +58,6 @@ const Signout = () => {
             }
         }
     }
-
     const override = {
         position: "absolute",
         top: "0",
@@ -61,9 +70,31 @@ const Signout = () => {
         paddingLeft: "-7px",
         paddingTop: "240px",
     }
-    return (
-        <div>
-        <div className='login-container col-12 col-sm-4'>
+    const RouteDirect = () => {
+            if(localStorage.getItem("role") === "ADMIN"){
+                return(
+                    <Adminwork></Adminwork>
+                )
+            }
+            else if(localStorage.getItem("role") === "UPPER"){
+                return(
+                    <Upper></Upper>
+                )
+            }
+            else if(localStorage.getItem("role") === "TRAINER"){
+                return(
+                    <Trainer></Trainer>
+                )
+            }
+            else if(localStorage.getItem("role") === "TRAINEE"){
+                return(
+                    <Trainee></Trainee>
+                )
+            }
+            else{
+                return(
+                    <div>
+                    <div className='login-container col-12 col-sm-4'>
             <div className='title'>Login</div>
             <div className='text-title'>Email or username</div>
             <input type ='text' 
@@ -86,8 +117,8 @@ const Signout = () => {
             onClick={() => HandleLogin()}
             >
             Login</button>
-
-
+    
+    
             <div className='Go-back'>
                 <i className="fas fa-angle-double-left"></i>
                 Go back
@@ -103,14 +134,21 @@ const Signout = () => {
                 draggable
                 pauseOnHover
             />
-
-        </div>
-        <ScaleLoader 
-        loading={showLoad} 
-        cssOverride={override} 
-        color='#36d7b7' 
-        timingFunction="ease-in-out"   
-        />
+    
+                </div>
+                <ScaleLoader 
+                loading={showLoad} 
+                cssOverride={override} 
+                color='#36d7b7' 
+                timingFunction="ease-in-out"   
+                />
+                            </div>
+                        )
+                    }
+            }
+    return (
+        <div>
+            {RouteDirect()}
         </div>
     );
 };

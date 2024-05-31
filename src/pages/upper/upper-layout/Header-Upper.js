@@ -9,6 +9,13 @@ function HandleMenu(){
       return !on;
     })
   }
+  
+  const HandleClickSignout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("role");
+  }
+
   return (
     <div>
             <div className='header'>
@@ -66,7 +73,7 @@ function HandleMenu(){
                 <i class="fas fa-sign-out-alt"></i>
               </span>
               <li>
-              <Link to="/Login" className='text-menu' onClick={() => HandleClick()}>Đăng xuất</Link>
+              <Link to="/Login" className='text-menu' onClick={() => HandleClickSignout()}>Đăng xuất</Link>
             </li>
             </div>
           </ul>

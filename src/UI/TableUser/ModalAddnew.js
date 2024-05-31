@@ -18,7 +18,7 @@ const ModalAddnew = (props) => {
 
     const handleSaveUser = async () => {
         console.log(Form)
-        let res = await PostCreateUser(Form);
+        let res = await PostCreateUser(Form,Storage.getItem("access_token"));
         // console.log("check res ==> ", res)
         if(res){
             handleClose();

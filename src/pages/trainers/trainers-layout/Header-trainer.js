@@ -11,6 +11,11 @@ function HandleMenu(){
       return !on;
     })
   }
+  const HandleClickSignout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("role");
+  }
   return (
     <div>
             <div className='header'>
@@ -54,7 +59,7 @@ function HandleMenu(){
                 TRAINER |
                 </span>
             </div>
-            <Link to="/Login" className={`log-out ${on ? '' : 'hidden-user'}`}>Sign Out</Link>
+            <Link to='/login' className={`log-out ${on ? '' : 'hidden-user'}`} onClick={() => HandleClickSignout()}>Sign Out</Link>
             {/* <div className='after-click'>
       </div> */}
             </div>

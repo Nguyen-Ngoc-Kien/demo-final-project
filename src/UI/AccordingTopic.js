@@ -1,23 +1,33 @@
 import { useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
-const ContentGrade = () => {
-  const [click, setClick] = useState(true)
-  const HandleClick = () => {
-      console.log("Click")
-      setClick(() => {
-          return !click
-      })
-  }
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
+
+const ContentGrade = (props) => {
+    const {toggle} = props
+    console.log("toggle >>>",toggle)
+
+    const [isShowModalAddNew,setIsShowModalAddNew] = useState(false);
+    // const [click, setClick] = useState(true)
+    // const HandleClick = () => {
+    //   console.log("Click")
+    //   setClick(() => {
+    //       return !click
+    //   })
+    // }
+    const handleclosed = () => {
+        setIsShowModalAddNew(false);
+    }
   return (
-    
     <Accordion defaultActiveKey={['0']} alwaysOpen>
       <Accordion.Item eventKey="0">
         <Accordion.Header>                
                     <div className="two-layer-top view-course-detail">
                     <span className='title-course-detail'>Các vi khuẩn Gram âm không lên men đường</span>
-                    <i className="fas fa-pencil-alt icon-pencil-vcd"></i>
-                    <i className="fas fa-trash-alt icon-trash-vcd"></i>
+                    <i className={`fas fa-pencil-alt icon-pencil-vcd ${toggle ? 'hide' : 'hien'}`}></i>
+                    <i className={`fas fa-trash-alt icon-trash-vcd ${toggle ? 'hide' : 'hien'}`}></i>
                     </div>
         </Accordion.Header>
         <Accordion.Body>
@@ -27,8 +37,8 @@ const ContentGrade = () => {
                     <span className='content-layer-bot '>Chưa có hoạt động</span>
                     </div>
                 </div>
-                <div className={'layer-bot view-course-detail-2 hover-background'} onClick={() => HandleClick()}>
-                    <div className="view-course-detail-3 flex">
+                <div className={`layer-bot view-course-detail-2 hover-background ${toggle ? 'hide' : 'hien'}`} onClick={() => setIsShowModalAddNew(true)}>
+                    <div className={`view-course-detail-3 flex`}>
                         <div className='khung-icon'>
                             <i className="fas fa-plus icon-plus"></i>
                         </div>
@@ -36,8 +46,8 @@ const ContentGrade = () => {
                     </div>
                 </div>
             </div>
-            <div className={`Add-Active ${click ? "hide" : "hien"}`}>
-            <div className='background-cover-outside'></div>
+
+            <Modal show={isShowModalAddNew} onHide={handleclosed}>
             <div className='border-cover-content'>
                 <div className='Header-add-active-content' >
                     <span className='Header-text'>Thêm hoạt động</span>
@@ -71,13 +81,14 @@ const ContentGrade = () => {
                 </div>
                 <hr className='hr-add-active'></hr>
                 <div className='Footer-add-active-content'>
-                    <span className='text-foot-add-active' onClick={() => HandleClick()}>ĐÓNG</span>
+                    <span className='text-foot-add-active' onClick={() => handleclosed()}>ĐÓNG</span>
                 </div>
             </div>
-        </div>
+            </Modal>            
+
         </Accordion.Body>
       </Accordion.Item>
-      <Accordion.Item eventKey="1">
+      {/* <Accordion.Item eventKey="1">
         <Accordion.Header>Accordion Item #2</Accordion.Header>
         <Accordion.Body>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -88,7 +99,7 @@ const ContentGrade = () => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </Accordion.Body>
-      </Accordion.Item>
+      </Accordion.Item> */}
     </Accordion>
   );
 }

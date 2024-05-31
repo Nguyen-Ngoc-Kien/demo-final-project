@@ -3,23 +3,21 @@ import {Routes, Route,} from 'react-router-dom';
 import MyClass from './../trainer-components/Myclass';
 import Home from '../trainer-components/Home';
 import Schedule from '../trainer-components/Schedule';
-import Login from '../../Signout';
 import CourseDetails from '../trainer-components/CourseDetails';
 import AddAssignment from '../trainer-components/AddAssignment';
 import Assignment from '../trainer-components/Assignment';
 import Addquiz from '../trainer-components/Addquiz';
 import Addresource from '../trainer-components/Addresource';
 import Quiz from './../trainer-components/Quiz'
-
+import DetailQuiz from '../../quizz/DetailQuiz';
+import ManageQuiz from '../../quizz/ManageQuiz';
+import Questions from '../../question/Questions';
 const Body = () => {
     return (
     <div>
         <Routes>
           <Route 
           path='/My-Class' element={<MyClass/>}
-          />
-          <Route 
-          path='/Login' element={<Login/>}
           />
           <Route 
           path='/Home' element={<Home/>}
@@ -47,6 +45,15 @@ const Body = () => {
           />
           <Route 
           path='/quiz' element={<Quiz/>}
+          />
+          <Route 
+          path='/question-quiz/:id' element={<DetailQuiz/>}
+          />
+          <Route 
+          path='/manager-quizzes/:id' element={<ManageQuiz/>}
+          />
+          <Route 
+          path='/manager-questions' element={<Questions/>}
           />
         </Routes>
     </div>

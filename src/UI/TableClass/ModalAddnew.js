@@ -18,7 +18,7 @@ const ModalAddnew = (props) => {
 
     const handleSaveClass = async () => {
         console.log(Form)
-        let res = await PostCreateClass(Form);
+        let res = await PostCreateClass(Form,localStorage.getItem("access_token"));
         console.log("check res ==> ", res)
         if(res){
             handleClose();

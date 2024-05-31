@@ -1,11 +1,11 @@
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
-import {fetchAllUser} from '../../services/UserServices';
+import {fetchAllCourse} from '../../services/UserServices';
 import ReactPaginate from 'react-paginate';
 import ModalAddnew from './ModalAddnew';
 import { ToastContainer, toast } from 'react-toastify';
-import ModalEditUser from './ModalEditUser';
+import ModalEditCourse from './ModalEditCourse';
 import _, { debounce } from 'lodash';
 import ModalConfirm from './ModalConfirm'; 
 import { CSVLink,CSVDownload } from 'react-csv';
@@ -91,8 +91,8 @@ const handleDeleteUser = (user) => {
     getUsers()
   }, [])
   const getUsers = async (page) => {
-    let res = await fetchAllUser(page,localStorage.getItem("access_token"));
-    
+    let res = await fetchAllCourse(page,localStorage.getItem("access_token"));
+    console.log("Course >>>",res)
     if(res){
       setTotalUsers(res.length)
       setTotalPages(Math.ceil(res.length/6))
@@ -190,7 +190,7 @@ const handleDeleteUser = (user) => {
   }
   return(
     <div className='container mt-5'>
-          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new user</button>
+          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new course</button>
           <div>
             <input 
             type='text'
@@ -213,7 +213,7 @@ const handleDeleteUser = (user) => {
               </div>
             </th>
             <th>
-                <span>First_name</span>
+                <span>courseName</span>
                 <span>
                   <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
                   <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
@@ -221,16 +221,14 @@ const handleDeleteUser = (user) => {
             </th>
             <th>
             <div className='sort-header'>
-                <span>Last_name</span>
+                <span>departmentId</span>
               </div>
             </th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Job</th>
+            <th>createdAt</th>
+            <th>updatedAt</th>
+            <th>description</th>
             <th>Detail</th>
             <th>Action</th>
-            {/* <th>Trạng Thái</th>
-            <th>Thao tác</th> */}
           </tr>
         </thead>
         <tbody>
@@ -240,11 +238,11 @@ const handleDeleteUser = (user) => {
               return(
                 <tr key={`users-${index}`}>
                   <td>{item.id}</td>
-                  <td>{item.firstName}</td>
-                  <td>{item.lastName}</td>
-                  <td>{item.gender}</td>
-                  <td>{item.phone}</td>
-                  <td>{item.job}</td>
+                  <td>{item.courseName}</td>
+                  <td>{item.departmentId}</td>
+                  <td>{item.createdAt}</td>
+                  <td>{item.updatedAt}</td>
+                  <td>{item.description}</td>
                   <td>
                     <i class="far fa-eye icon-td-5"></i>
                   </td>
@@ -298,12 +296,12 @@ const handleDeleteUser = (user) => {
         pauseOnHover
         />
 
-        <ModalEditUser
+        <ModalEditCourse
         handleEditUserFromModal={handleEditUserFromModal}
         handleClose = {handleclosed}
         show = {isShowModalEdit}
         dataUserEdit = {dataUserEdit}
-        ></ModalEditUser>
+        ></ModalEditCourse>
 
         <ModalConfirm
         show={isShowModalDelete}

@@ -7,11 +7,11 @@ import Configuration from '../admin-components/Configuration';
 import Course from '../admin-components/Course';
 import Emulator from '../admin-components/Emulator';
 import Home from '../admin-components/Home';
-import Login from '../../../layout/Login';
 import User from '../admin-components/User';
 import Location from '../admin-components/Locate';
 import AddClass from '../admin-components/AddClass';
 import DuyetLop from '../admin-components/DuyetLop';
+import DetailQuiz from '../../quizz/DetailQuiz';
 
 
 const Body = () => {
@@ -37,9 +37,6 @@ const Body = () => {
           path='/Emulator' element={<Emulator/>}
           />
           <Route 
-          path='/Login' element={<Login/>}
-          />
-          <Route 
           path='/Configuration' element={<Configuration/>}
           />
           <Route 
@@ -58,6 +55,9 @@ const Body = () => {
           path='/Emulator/approve-create-class' element={<DuyetLop/>}
           />
         </Routes>
+        <Routes>
+       <Route path='/quiz/:id' element={<DetailQuiz></DetailQuiz>} ></Route>
+        </Routes> 
     </div>
     );
 };
