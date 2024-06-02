@@ -70,6 +70,22 @@ function HandleMenu(){
             </div>
             <div className='object-sidebar'>
               <span className='home-icon'>
+                <i class="fas fa-house-user"></i>
+              </span>
+              <li>
+              <Link to="/Department" className='text-menu' onClick={() => HandleClick()}>Khoa</Link>
+            </li>
+            </div> 
+            <div className='object-sidebar'>
+              <span className='home-icon'>
+                <i class="fas fa-house-user"></i>
+              </span>
+              <li>
+              <Link to="/Curriculum" className='text-menu' onClick={() => HandleClick()}>Giảng dạy</Link>
+            </li>
+            </div> 
+            <div className='object-sidebar'>
+              <span className='home-icon'>
                 <i class="fas fa-sign-out-alt"></i>
               </span>
               <li>

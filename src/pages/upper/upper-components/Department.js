@@ -1,14 +1,14 @@
 import React from 'react';
-import TableUser from '../../../UI/TableUser/TableUser'
-const User = () => {
+import TableDepartment from '../../../UI/TableDepartment/TableDepartment'
+const Department = () => {
     return (
         <div>
             <div className='body'>
                 <div className='background'>
                     <div className='content'>
-                        <span className='title-grade t-center mt-5'>Danh Sách Nguời dùng</span>
+                        <span className='title-grade t-center mt-5'>Danh Sách Khoa</span>
                         <div className='col-grade'>
-                            <TableUser></TableUser>
+                            <TableDepartment></TableDepartment>
                         </div>
                     </div>
                 </div>
@@ -17,4 +17,4 @@ const User = () => {
     );
 };
 
-export default User;
+export default Department;

@@ -1418,6 +1418,7 @@ i.fas.fa-trash-alt.icon-trash-vcd {
     cursor: pointer;
     margin-top: -19px;
     display: block;
+    z-index: 999;
 }
 
 .flex{
@@ -2154,3 +2155,33 @@ label.answer {
     transition: background-position .15s ease-in-out;
     cursor: pointer;
 }
+
+.t-center{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.title-schedule {
+  margin-top: 55px;
+  margin-left: 60px;
+  font-size: 28px;
+  color: #e33939;
+}
+
+.layer-schedule {
+  display: flex;
+  margin-left: 48px;
+  margin-top: 12px;
+}
+
+span.home-icon.schedule {
+  font-size: 22px;
+}
+
+span.text-menu.schedule {
+  font-size: 17px;
+  display: flex;
+  margin-top: 5px;
+}
+

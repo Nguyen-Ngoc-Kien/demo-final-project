@@ -103,6 +103,24 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
+                        <label>schedules</label>
+                        <input 
+                            name='schedules'
+                            type="text" 
+                            className="form-control"
+                            onChange={onChangeHandler}
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>Trainees</label>
+                        <input 
+                            name='trainees'
+                            type="text" 
+                            className="form-control"
+                            onChange={onChangeHandler}
+                        />
+                    </div>
+                    <div class="form-group">
                         <label>allowedRegister</label>
                         <select 
                             name='allowedRegister'

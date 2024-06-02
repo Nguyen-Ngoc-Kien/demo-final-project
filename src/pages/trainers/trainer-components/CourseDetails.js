@@ -1,26 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import imgForest from './../../../data/image/Forestry-College-in-Tehri-Garhwal.png'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ContentGrade from '../../../UI/AccordingTopic';
+import { Link, useParams } from 'react-router-dom';
+import ContentGrade from './AccordingTopic';
+import ModalAddnewTopic from '../../../UI/TableTopic/ModalAddNewTopic';
 import Form from 'react-bootstrap/Form';
+import { fetchAllTopicCoursebyId } from '../../../services/UserServices';
+import ModalConfirm from '../../../UI/TableTopic/ModalConfirm';
+import _ from "lodash"
+import { toast, ToastContainer } from 'react-toastify';
 
-function HandleClick(){
-    const [toggle, setToggle] = useState(false)
-    // const [click, setClick] = useState(true)
-    // const HandleClick = () => {
-    //     console.log("Click")
-    //     setClick(() => {
-    //         return !click
-    //     })
-    // }
+const CourseDetails = (props) => {
+    const [toggle, setToggle] = useState(true)
+    const [isShowModalAddNew, setIsShowModalAddNew] = useState(false)
+    const [listTopic,setListTopic] = useState([]);
+
+
     const HandleToggle = () => {
         console.log("Click")
         setToggle(() => {
             return !toggle
         })
     }
+    const handleclosed = () => {
+        setIsShowModalAddNew(false);
+    }
+
+    const handleUpdateTable = (topic) => {
+        setListTopic([topic, ...listTopic]);
+    }
+
+    useEffect(() => {
+        getTopicCourseById()
+    },[])
+    const getTopicCourseById = async () => {
+        const res = await fetchAllTopicCoursebyId(1,localStorage.getItem("access_token"))
+        console.log("res >>>",res)
+        if(res && res.length > 0){
+            setListTopic(res)
+        }
+    }
+
     return (
+        <div>
         <div>
         <div className="background-image">
             <div className="nen-mo-1"></div>
@@ -45,7 +67,7 @@ function HandleClick(){
                     <i class="fas fa-users course-detail"></i>
                     <span className='title-detail-class-upper'>DANH SÁCH LỚP</span>
                 </div>
-                <Link to = '/question-quiz/:id' className='two-layer-detail-class-upper'>
+                <Link to = {`/question-quiz/${1}`} className='two-layer-detail-class-upper'>
                     <i class="fas fa-comment-alt course-detail"></i>
                     <span className='title-detail-class-upper'>NGÂN HÀNG CÂU HỎI</span>
                 </Link>
@@ -67,18 +89,16 @@ function HandleClick(){
             </div>
             <ContentGrade
             toggle = {toggle }
+            listTopic={listTopic}
              ></ContentGrade>
-            <hr className='view-course-detail-hr'></hr>
-            <div className='new-topic'>Thêm chủ đề</div>
+            <div className={`new-topic mt-3 ${toggle ? 'hidden-ground' : 'hien' }`} onClick={() => setIsShowModalAddNew(true)}>Thêm chủ đề</div>
         </div>
-
         </div>
-        );
-}
-const CourseDetails = () => {
-    return (
-        <div>
-            {HandleClick()}
+        <ModalAddnewTopic
+      handleUpdateTable={handleUpdateTable}
+      show = {isShowModalAddNew}
+      handleClose = {handleclosed}
+      ></ModalAddnewTopic>
         </div>
     );
 };

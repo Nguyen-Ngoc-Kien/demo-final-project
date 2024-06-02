@@ -52,7 +52,8 @@ const ManageQuiz = (props) => {
 
         console.log("Form >>>",Form)
         let res = await postCreateQuiz(Form,localStorage.getItem("access_token"))
-        if(res && res.allQuestions.length >0){
+        console.log("check res quiz")
+        if(res && res.allQuestionAnswer.length > 0){
             toast.success("Create Success")
             setName('')
             setTopicId(0)

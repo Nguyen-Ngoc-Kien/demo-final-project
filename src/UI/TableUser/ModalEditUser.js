@@ -21,6 +21,7 @@ const ModalEditUser = (props) => {
 
 const handleEditUser = async () => {
         console.log("Datauseredit >>>>", dataUserEdit)
+        console.log("local >>>",localStorage.getItem("access_token"))
         let res = await patchUpdateUser(dataUserEdit.id,localStorage.getItem("access_token"))
         console.log("Check res>>> ",res)
         if(res){

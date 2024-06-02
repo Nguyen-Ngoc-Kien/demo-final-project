@@ -2,7 +2,6 @@ import React from 'react';
 import {Routes, Route,} from 'react-router-dom';
 import Certification from '../admin-components/Certification';
 import Grade from '../admin-components/Grade';
-import Department from '../admin-components/Department';
 import Configuration from '../admin-components/Configuration';
 import Course from '../admin-components/Course';
 import Emulator from '../admin-components/Emulator';
@@ -26,9 +25,6 @@ const Body = () => {
           />
           <Route 
           path='/Course' element={<Course/>}
-          />
-          <Route 
-          path='/Department' element={<Department/>}
           />
           <Route 
           path='/Location' element={<Location/>}

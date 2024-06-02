@@ -83,14 +83,6 @@ function HandleMenu(){
             </div>
             <div className='object-sidebar'>
               <span className='home-icon'>
-                <i class="fas fa-house-user"></i>
-              </span>
-              <li>
-              <Link to="/Department" className='text-menu' onClick={() => HandleClick()}>Khoa</Link>
-            </li>
-            </div>
-            <div className='object-sidebar'>
-              <span className='home-icon'>
                 <i class="fas fa-map-marker-alt"></i>
               </span>
               <li>

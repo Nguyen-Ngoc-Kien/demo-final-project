@@ -179,4 +179,114 @@ const postQuestions = (topicId,questionName,level,answers,access_token) => {
     }
 
 
-export {fetchAllClass,PostCreateClass, putUpdateClass,deleteClass,loginApi,fetchAllUser,patchUpdateUser,deleteUser,PostCreateUser,fetchUserProfile, deleteCourse, patchUpdateCourse, PostCreateCourse ,fetchAllCourse,getQuestionQuizbyId, postSubmitQuiz,postCreateQuiz, postQuestions, getQuizById}
+    const fetchAllDepartment = (page,access_token) => {
+        return axios.get(`/department`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const PostCreateDepartment = (Form,access_token) => {
+        return axios.post("department/createDepartment",Form,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const deleteDepartment = (id,access_token) => {
+        return axios.delete(`department/deleteDepartment/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const patchUpdateDepartment = (id,access_token) => {
+        return axios.patch(`department/editDepartment/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const fetchAllCurriculum = (page,access_token) => {
+        return axios.get(`/curriculum`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const PostCreateCurriculum = (Form,access_token) => {
+        return axios.post("curriculum/createCurriculum",Form,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+        
+    }
+
+    const deleteCurriculum = (id,access_token) => {
+        return axios.delete(`curriculum/deleteCurriculum/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const patchUpdateCurriculum = (id,access_token) => {
+        return axios.patch(`curriculum/editCurriculum/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const fetchAllTopicCoursebyId = (id,access_token) => {
+        return axios.get(`/topic/course/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const PostCreateTopicCourse = (Form,access_token) => {
+        return axios.post("topic/createTopic",Form,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const deleteTopicFromId = (id,access_token) => {
+        return axios.delete(`topic/deleteTopic/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const patchUpdateTopicCourse = (id,access_token) => {
+        return axios.patch(`topic/editTopic/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+
+export {fetchAllClass,PostCreateClass, putUpdateClass,deleteClass,loginApi,fetchAllUser,patchUpdateUser,deleteUser,PostCreateUser,fetchUserProfile, deleteCourse, patchUpdateCourse, PostCreateCourse ,fetchAllCourse,getQuestionQuizbyId, postSubmitQuiz,postCreateQuiz, postQuestions, getQuizById, fetchAllDepartment, PostCreateDepartment,deleteDepartment, patchUpdateDepartment, fetchAllCurriculum, PostCreateCurriculum, deleteCurriculum, patchUpdateCurriculum, fetchAllTopicCoursebyId, PostCreateTopicCourse, deleteTopicFromId, patchUpdateTopicCourse}

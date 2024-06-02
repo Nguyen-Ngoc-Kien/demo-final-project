@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Routes, Route,} from 'react-router-dom';
 import MyClass from './../trainer-components/Myclass';
 import Home from '../trainer-components/Home';
@@ -12,7 +12,7 @@ import Quiz from './../trainer-components/Quiz'
 import DetailQuiz from '../../quizz/DetailQuiz';
 import ManageQuiz from '../../quizz/ManageQuiz';
 import Questions from '../../question/Questions';
-const Body = () => {
+const Body = (props) => {
     return (
     <div>
         <Routes>

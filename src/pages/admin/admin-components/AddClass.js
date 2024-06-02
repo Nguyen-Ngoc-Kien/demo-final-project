@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
 
 const changeTitle = (event) => {
     console.log(event.target.value)
@@ -12,68 +13,71 @@ const AddClass = () => {
           <div className='form-content'>
             <div className='addClass'>
                 <div className='layer-input'>
-                    <label htmlFor="Course">Khóa học*</label>
-                    <br/>
-                    <select name="Course" id="Course" className='input-select' onChange={changeTitle}>
-                        <option value="">None</option>
-                        <option value="Khóa học về răng hàm mặt">Khóa học về răng hàm mặt</option>
-                        <option value="Khóa học Y học dự phòng">Khóa học Y học dự phòng</option>
-                        <option value="Não thiếu oxy thiếu máu cục bộ">Não thiếu oxy thiếu máu cục bộ</option>
-                        <option value="Khai khí quản dành cho điều dưỡng">Khai khí quản dành cho điều dưỡng</option>
-                        <option value="Trợ lý điều dưỡng">Trợ lý điều dưỡng</option>
-                        <option value="Huấn luyện khoa nhi cơ bản">Huấn luyện khoa nhi cơ bản</option>
-                        <option value="Kỹ thuật xét nghiệm khoa nhi lâm sàng">Kỹ thuật xét nghiệm khoa nhi lâm sàng</option>
-                    </select>
+                    <div class="form-group">
+                        <label>Course ID</label>
+                        <input
+                            name='courseId'
+                            type="text"
+                            className="form-control"
+                            onChange={changeTitle}
+                        />
+                    </div>
                 </div>   
                 <div className="layer-input">
-                    <label htmlFor="Khoa">Khoa*</label>
-                    <br/>
-                    <select name="Khoa" id="Khoa" className='input-select' onChange={changeTitle}>
-                        <option value="">None</option>
-                        <option value="Khoa nhi">Khoa nhi</option>
-                        <option value="Khoa răng hàm mặt">Khoa răng hàm mặt</option>
-                        <option value="Khoa nội tiết">Khoa nội tiết</option>
-                    </select>
+                    <div class="form-group">
+                        <label>Department ID</label>
+                        <input
+                            name='departmentId'
+                            type="text"
+                            className="form-control"
+                            onChange={changeTitle}
+                        />
+                    </div>
                 </div>             
                 <div className="layer-input">
-                    <label htmlFor="Grade">Tên lớp*</label>
-                    <br/>
-                    <input type="text" id="Grade" name="Grade" className='input-select' onChange={changeTitle}/>
+                    <div class="form-group">
+                        <label>Class Name</label>
+                        <input
+                            name='className'
+                            type="text"
+                            className="form-control"
+                            onChange={changeTitle}
+                        />
+                    </div>
                 </div>
                 <div className="layer-input">
-                    <label htmlFor="structor">Người hướng dẫn*</label>
-                    <br/>
-                    <select name="structor" id="structor" className='input-select' onChange={changeTitle}>
-
-                        <option value="">None</option>
-                        <option value="Phạm Quang Huy">Phạm Quang Huy</option>
-                        <option value="Trần Duy Mai">Trần Duy Mai</option>
-                        <option value="Phạm Nhật Quang">Phạm Nhật Quang</option>
-                        <option value="Trần Việt Dũng">Trần Việt Dũng</option>
-                    </select>
+                    <div class="form-group">
+                        <label>TrainerID</label>
+                        <input
+                            name='trainerId'
+                            type="text"
+                            className="form-control"
+                            onChange={changeTitle}
+                        />
+                    </div>
                 </div>
                 <div className="layer-input">
-                    <label htmlFor="khung">Khung chương trình*</label>
-                    <br/>
-                    <select name="khung" id="khung" className='input-select' onChange={changeTitle}>
-                        <option value="">None</option>
-                        <option value="Thực hành khám bệnh, chữa bệnh đối với bác sĩ y khoa - 18 tháng">Thực hành khám bệnh, chữa bệnh đối với bác sĩ y khoa - 18 tháng</option>
-                        <option value="Đào tạo bác sĩ dinh dưỡng - 4 tháng">Đào tạo bác sĩ dinh dưỡng - 4 tháng</option>
-                        <option value="Đào tạo bác sĩ răng hàm mặt - 5 tháng">Đào tạo bác sĩ răng hàm mặt - 5 tháng</option>
-                        <option value="Tập huấn y tế dự phòng - 7 tháng">Tập huấn y tế dự phòng - 7 tháng</option>
-                    </select>
+                    <div class="form-group">
+                        <label>CurriculumId</label>
+                        <input
+                            name='curriculumId'
+                            type="text"
+                            className="form-control"
+                            onChange={changeTitle}
+                        />
+                    </div>
                 </div>
                 <div className='layer-input'>
                     <label htmlFor="date">Thời gian học</label>
                     <br/>
-                    <input type="date" id="date-start" name="date-start" placeholder='Bắt đầu' className='input-date' onChange={changeTitle}/>
-                    <input type="date" id="date-end" name="date-end" className='input-date' onChange={changeTitle}/>
+                    <input type="date" name="startDate" placeholder='Bắt đầu' className='input-date' onChange={changeTitle}/>
+                    <input type="date" name="endDate" className='input-date' onChange={changeTitle}/>
                 </div>
                 <div className="layer-input">
                     <label htmlFor="count">Số lượng học viên</label>
                     <br/>
-                    <input type="text" id="count" name="count" className='input-date' onChange={changeTitle}/>
-                    <input type="text" id="count" name="count" className='input-date' onChange={changeTitle}/>
+                    <input type="number" name="minQuantity" className='input-date' onChange={changeTitle}/>
+                    <input type="number" name="maxQuantity" className='input-date' onChange={changeTitle}/>
                     <button className='secondary'>Thêm học viên</button>
                     <p className='text-side'>số lượng học viên 0/15</p>
                 </div>

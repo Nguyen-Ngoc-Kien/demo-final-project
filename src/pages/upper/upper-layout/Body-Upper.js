@@ -5,12 +5,20 @@ import GradeUpper from '../upper-components/GradeUpper';
 import ScheduleUpper from '../upper-components/ScheduleUpper';
 import ListClass from '../upper-components/ListClass';
 import ViewCourseDetail from '../upper-components/ViewCourseDetail';
+import Department from '../upper-components/Department';
+import Curriculum from '../upper-components/Curriculum';
 
 const Body = () => {
     return (
     <div>
       <Routes>
-              <Route 
+            <Route 
+            path='/Department' element={<Department/>}
+            />
+            <Route 
+            path='/Curriculum' element={<Curriculum/>}
+            />
+            <Route 
             path='/Home' element={<HomeUpper/>}
             />
               <Route 
