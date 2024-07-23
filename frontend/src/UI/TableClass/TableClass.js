@@ -11,9 +11,9 @@ import _ from 'lodash';
 import ModalAddnew from './ModalAddnew';
 import ModalEditUser from './ModalEditUser';
 import ModalConfirm from './ModalConfirm';
-import { fetchAllClass, fetchStatusById } from './../../services/UserServices';
+import { fetchAllClass, fetchStatusById, fetchCourseById } from './../../services/UserServices';
 
-const TableUsers = (props) => {
+const TableUsers = ({ filterStatus }) => {
   const [listUser, setListUser] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
@@ -26,11 +26,15 @@ const TableUsers = (props) => {
   const [keyword, setKeyword] = useState("");
   const [dataExport, setDataExport] = useState([]);
 
+  useEffect(() => {
+    getUsers(1);
+  }, [filterStatus]);
+
   const handlePageClick = (event) => {
     getUsers(event.selected + 1);
   };
 
-  const handleclosed = () => {
+  const handleClosed = () => {
     setIsShowModalAddNew(false);
     setIsShowModalEdit(false);
     setIsShowModalDelete(false);
@@ -55,16 +59,16 @@ const TableUsers = (props) => {
     let index = listUser.findIndex((item) => item.id === user.id);
     cloneListUsers[index].first_name = user.first_name;
     setListUser(cloneListUsers);
-    handleclosed();
-    toast.success("Update completely!");
+    handleClosed();
+    toast.success("Cập nhật thành công!");
   };
 
   const handleDeleteUserFromModal = (user) => {
     let cloneListUsers = _.cloneDeep(listUser);
     cloneListUsers = cloneListUsers.filter((item) => item.id !== user.id);
     setListUser(cloneListUsers);
-    handleclosed();
-    toast.success("Update completely!");
+    handleClosed();
+    toast.success("Xóa thành công!");
   };
 
   const getStatusById = async (statusClassId) => {
@@ -77,25 +81,38 @@ const TableUsers = (props) => {
     }
   };
 
-  useEffect(() => {
-    getUsers(1);
-  }, []);
+  const getCourseById = async (courseId) => {
+    try {
+      const res = await fetchCourseById(courseId, localStorage.getItem("access_token"));
+      return res.courseName; // Return the course name from the API call
+    } catch (error) {
+      console.error("Error fetching course:", error);
+      return ""; // Handle error gracefully, return empty string or default value
+    }
+  };
 
   const getUsers = async (page) => {
     try {
       const res = await fetchAllClass(page, localStorage.getItem("access_token"));
       if (res && res.length > 0) {
-        setListUser(res);
-        setTotalPages(Math.ceil(res.length / 6));
+        let filteredList = res;
+        if (filterStatus !== 0) {
+          filteredList = res.filter(user => user.statusClassId === filterStatus);
+        }
+        setListUser(filteredList);
+        setTotalPages(Math.ceil(filteredList.length / 6));
 
-        // Fetch status for each user
-        const promises = res.map((user) => getStatusById(user.statusClassId));
-        Promise.all(promises).then((statuses) => {
-          // Update statusClass for each user
-          const updatedUsers = res.map((user, index) => ({
+        // Fetch courseName and statusClass for each user
+        const promises = filteredList.map(async (user) => {
+          const courseName = await getCourseById(user.courseId);
+          const statusClass = await getStatusById(user.statusClassId);
+          return {
             ...user,
-            statusClass: statuses[index] // Assign statusClass fetched from promises
-          }));
+            courseName: courseName,
+            statusClass: statusClass
+          };
+        });
+        Promise.all(promises).then((updatedUsers) => {
           setListUser(updatedUsers);
         });
       }
@@ -124,14 +141,15 @@ const TableUsers = (props) => {
   }, 300);
 
   const getUsersExport = () => {
-    let result = [["ID", "Email", "First Name", "Last Name"]];
+    let result = [["ID", "Lớp", "Khóa Học", "Ngày Tạo", "Trạng Thái"]];
     if (listUser && listUser.length > 0) {
       listUser.forEach((item) => {
         let arr = [];
         arr[0] = item.id;
-        arr[1] = item.email;
-        arr[2] = item.first_name;
-        arr[3] = item.last_name;
+        arr[1] = item.className;
+        arr[2] = item.courseName; // Use courseName instead of courseId
+        arr[3] = item.createdAt;
+        arr[4] = item.statusClass;
         result.push(arr);
       });
       setDataExport(result);
@@ -142,23 +160,24 @@ const TableUsers = (props) => {
     if (event.target && event.target.files && event.target.files[0]) {
       let file = event.target.files[0];
       if (file.type !== "text/csv") {
-        toast.error("Upload only csv file...");
+        toast.error("Chỉ tải lên tệp CSV...");
       } else {
         Papa.parse(file, {
           complete: function (results) {
             let dataRawCSV = results.data;
-            if (dataRawCSV.length > 0 && dataRawCSV[0].length === 4) {
-              if (dataRawCSV[0][0] !== "ID" || dataRawCSV[0][1] !== "Email" || dataRawCSV[0][2] !== "first_name" || dataRawCSV[0][3] !== "last_name") {
-                toast.error("Wrong format Header CSV File!");
+            if (dataRawCSV.length > 0 && dataRawCSV[0].length === 5) {
+              if (dataRawCSV[0][0] !== "ID" || dataRawCSV[0][1] !== "Lớp" || dataRawCSV[0][2] !== "Khóa Học" || dataRawCSV[0][3] !== "Ngày Tạo" || dataRawCSV[0][4] !== "Trạng Thái") {
+                toast.error("Định dạng Header của tệp CSV không đúng!");
               } else {
                 let result = [];
                 dataRawCSV.forEach((item, index) => {
-                  if (index > 0 && item.length === 4) {
+                  if (index > 0 && item.length === 5) {
                     let obj = {
                       id: item[0],
-                      email: item[1],
-                      first_name: item[2],
-                      last_name: item[3]
+                      className: item[1],
+                      courseName: item[2],
+                      createdAt: item[3],
+                      statusClass: item[4]
                     };
                     result.push(obj);
                   }
@@ -166,7 +185,7 @@ const TableUsers = (props) => {
                 setListUser(result);
               }
             } else {
-              toast.error("Wrong format CSV File!");
+              toast.error("Định dạng tệp CSV không đúng!");
             }
           }
         });
@@ -176,12 +195,15 @@ const TableUsers = (props) => {
 
   return (
     <Container>
-      <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new user</button>
+      <Link to="/Add-Class" className='add-class'>
+        <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser'>Thêm lớp</button>
+      </Link>
+
       <div>
         <input
           type='text'
-          className='form-control'
-          placeholder='Search by Course.... '
+          className='form-control mt-3'
+          placeholder='Tìm kiếm bằng tên lớp... '
           onChange={(event) => handleSearch(event)}
         />
       </div>
@@ -202,8 +224,8 @@ const TableUsers = (props) => {
               <div className='sort-header'>
                 <span>Khóa Học</span>
                 <span>
-                  <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc", "first_name")}></i>
-                  <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc", "first_name")}></i>
+                  <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc", "courseName")}></i>
+                  <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc", "courseName")}></i>
                 </span>
               </div>
             </th>
@@ -214,7 +236,7 @@ const TableUsers = (props) => {
             </th>
             <th>Trạng Thái</th>
             <th>Chi Tiết</th>
-            <th>Action</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -223,7 +245,7 @@ const TableUsers = (props) => {
               <tr key={`users-${index}`}>
                 <td>{item.id}</td>
                 <td>{item.className}</td>
-                <td>{item.courseId}</td>
+                <td>{item.courseName}</td> {/* Use courseName instead of courseId */}
                 <td>{item.createdAt}</td>
                 <td>{item.statusClass}</td>
                 <td>
@@ -232,8 +254,8 @@ const TableUsers = (props) => {
                   </Link>
                 </td>
                 <td>
-                  <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
-                  <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
+                  <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Sửa</button>
+                  <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Xóa</button>
                 </td>
               </tr>
             ))
@@ -264,7 +286,7 @@ const TableUsers = (props) => {
       <ModalAddnew
         handleUpdateTable={handleUpdateTable}
         show={isShowModalAddNew}
-        handleClose={handleclosed}
+        handleClose={handleClosed}
       />
 
       <ToastContainer
@@ -281,14 +303,14 @@ const TableUsers = (props) => {
 
       <ModalEditUser
         handleEditUserFromModal={handleEditUserFromModal}
-        handleClose={handleclosed}
+        handleClose={handleClosed}
         show={isShowModalEdit}
         dataUserEdit={dataUserEdit}
       />
 
       <ModalConfirm
         show={isShowModalDelete}
-        handleClose={handleclosed}
+        handleClose={handleClosed}
         dataUserDelete={dataUserDelete}
         handleDeleteUserFromModal={handleDeleteUserFromModal}
       />

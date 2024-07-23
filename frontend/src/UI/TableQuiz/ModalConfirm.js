@@ -26,13 +26,13 @@ const confirmDelete = async () => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Delete A Quiz</Modal.Title>
+                <Modal.Title>Xóa bài Quiz</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
-                    this action can't be undone!
+                    Hành động không thể hoàn tác
                     <br></br>
-                    Are you sure to delete this Quiz,<br></br>  <b> quizName ={" " + dataQuizDelete.quizName}</b>
+                    Xác nhận xóa bài quiz,<br></br>  <b> quizName ={" " + dataQuizDelete.quizName}</b>
                 </div>
                 </Modal.Body>
                 <Modal.Footer>

@@ -2,35 +2,43 @@ import { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import { fetchAllTopicCoursebyId, fetchQuizTopicById } from '../../../services/UserServices';
+import { fetchAllTopicCoursebyId, fetchQuizTopicById, fetchAssignmentTopicById, fetchExternalResourceTopicById } from '../../../services/UserServices';
 import _ from 'lodash';
 import {ToastContainer, toast } from 'react-toastify';
-import ModalConfirm from '../../../UI/TableTopic/ModalConfirm';
-import ModalEditTopic from '../../../UI/TableTopic/ModalEditTopic';
-import ModalConfirmQuiz from '../../../UI/TableQuiz/ModalConfirm'
-import ModalEditQuiz from '../../../UI/TableQuiz/ModalEditQuiz';
 
 const ContentGrade = (props) => {
     const {toggle,listTopic} = props
     // console.log("toggle >>>",toggle)
     // console.log("item Topic 1>>>",item)
+    const [listAssignment,setListAssignment] = useState([]);
+    const [assignmentTopic,setAssignmentTopic] = useState([])
     const [listUser,setListUser] = useState([]);
     const [listQuiz,setListQuiz] = useState([]);
     const [dataQuizDelete,setDataQuizDelete] = useState({});
     const [quizTopic,setQuizTopic] = useState([])
-
+    const [externalResource,setExternalResource] = useState([])
 
       const handleOnClickShowDetail = async (id,item) => {
         // localStorage.removeItem(`quizId-${id}`)
         // console.log("item >>>",item)
         const res = await fetchQuizTopicById(id,localStorage.getItem("access_token"))
+        const res1 = await fetchAssignmentTopicById(id,localStorage.getItem("access_token"))
+        const res2 = await fetchExternalResourceTopicById(id,localStorage.getItem("access_token"))
         // console.log("res >>>",res)
         setQuizTopic(res);
+        setAssignmentTopic(res1);
+        setExternalResource(res2);
         // console.log("Quiz topic >>>",quizTopic)
       }
       const handleClickQuiz = (idQuiz,topicId) => {
         localStorage.setItem("idQuiz",idQuiz)
         localStorage.setItem("TopicId",topicId)
+      }
+      const handleClickAssignment = (idAssignment) => {
+        localStorage.setItem("idAssignment",idAssignment)
+      }
+      const handleClickExternalResource = (idExternalResource) => {
+        localStorage.setItem("idExternalResource",idExternalResource)
       }
   return (
     <div>
@@ -48,11 +56,6 @@ const ContentGrade = (props) => {
                         </Accordion.Header>
                         <Accordion.Body>
                         <div className='content-course-detail'>
-                                    <div className={'layer-bot view-course-detail-2'}>
-                                    <div className="khung-layer-bot view-course-detail-3">
-                                    <span className='content-layer-bot '>Chưa có hoạt động</span>
-                                    </div>
-                                </div>
                                 {quizTopic && quizTopic.length > 0 && quizTopic.map((quiztopic, index) => {
                                         if (!quiztopic.quizName.toLowerCase().includes("mã đề")) {
                                             return (
@@ -81,6 +84,54 @@ const ContentGrade = (props) => {
                                         } else {
                                             return null; // Không render gì nếu có chứa chuỗi "mã đề" trong quizName
                                         }
+                                    })}
+                                    {assignmentTopic && assignmentTopic.length > 0 && assignmentTopic.map((assignmenttopic, index) => {
+                                        return(
+                                            <Link to="/assignment" onClick={() => handleClickAssignment(assignmenttopic.id)} key={`topic-${index}`}>
+                                                    <div className='quiz-border'>
+                                                        <div className='title-content-assignment mt-14'>
+                                                            <div className='icon-background-title'>
+                                                                <i class="fas fa-paste"></i>
+                                                            </div>
+                                                            <div className='text-assignment'>
+                                                                <span className='title-span-assignment'>Bài Tập Lớn</span>
+                                                                <span className='title-span-assignment-2'>{assignmenttopic.name}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className='content-assignment w-1109'>
+                                                            <div className='header-title-quiz'>
+                                                                <span className='description-assignment'>{assignmenttopic.name}</span>
+                                                                <div className='status-quiz'>Đang diễn ra</div>
+                                                            </div>
+                                                            <hr className='hr-assignment-content w-1059'></hr>
+                                                            <span className='description-assignment-6'>Thời gian mở {assignmenttopic.startAt}</span>
+                                                            <div className='description-assignment-6'>Thời gian đóng {assignmenttopic.endAt}</div>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                        )
+                                    })}
+                                    {externalResource && externalResource.length > 0 && externalResource.map((externalResource, index) => {
+                                        return(
+                                            <Link to="/external-resource-detail" onClick={() => handleClickExternalResource(externalResource.id)} key={`topic-${index}`}>
+                                                    <div className='quiz-border'>
+                                                        <div className='title-content-assignment mt-14'>
+                                                            <div className='icon-background-title'>
+                                                                <i class="fas fa-link"></i>
+                                                            </div>
+                                                            <div className='text-assignment'>
+                                                                <span className='title-span-assignment'>Tài liệu</span>
+                                                                <span className='title-span-assignment-2'>{externalResource.name}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className='content-assignment w-1109'>
+                                                            <div className='header-title-quiz'>
+                                                                <span className='description-assignment'>{externalResource.name}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                        )
                                     })}
                             </div> 
                         </Accordion.Body>

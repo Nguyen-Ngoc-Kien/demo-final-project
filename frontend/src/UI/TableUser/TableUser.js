@@ -214,7 +214,7 @@ const handleDeleteUser = (user) => {
               </div>
             </th>
             <th>
-                <span>First_name</span>
+                <span>Họ và tên đệm</span>
                 <span>
                   <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
                   <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
@@ -222,14 +222,14 @@ const handleDeleteUser = (user) => {
             </th>
             <th>
             <div className='sort-header'>
-                <span>Last_name</span>
+                <span>Tên</span>
               </div>
             </th>
             <th>email</th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Detail</th>
-            <th>Action</th>
+            <th>Giới tính</th>
+            <th>Số điện thoại</th>
+            <th>Chi tiết</th>
+            <th>Hành động</th>
             {/* <th>Trạng Thái</th>
             <th>Thao tác</th> */}
           </tr>
@@ -250,8 +250,8 @@ const handleDeleteUser = (user) => {
                     <i class="far fa-eye icon-td-5"></i>
                   </td>
                   <td>
-                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
-                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
+                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Sửa</button>
+                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Xóa</button>
                   </td>
                 </tr>
               )

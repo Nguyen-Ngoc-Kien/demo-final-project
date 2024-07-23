@@ -1,66 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import imgForest from './../../../data/image/Forestry-College-in-Tehri-Garhwal.png'
-import imgScient from './../../../data/image/images.jpg'
-import { fetchAllClass, fetchAllTopicCoursebyId } from '../../../services/UserServices';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import imgHopital from './../../../data/image/Hospital-building.gif'
 
-const Myclass = (props) => {
-    const [listClass,setListClass] = useState([])
-    useEffect(() => {
-        getClass()
-    },[])
-    const getClass = async (page) => {
-        const res = await fetchAllClass(page,localStorage.getItem("access_token"))
-        // console.log(res)
-        if(res && res.length > 0){
-            setListClass(res)
-        }
-        // console.log("list class >>>",listClass)
-    }
+const Home = () => {
     return (
-            <div>
-            <div className="background-image">
-            <div className="nen-mo-1"></div>
-            <div className="nen-mo-2"></div>
-            <img src={imgForest} alt="" className="img-forest"></img>
+        <div className='home-content'>
+        <div className='home-content-text'>
+            <h4 className='name-hopital'>
+                Polycell
+            </h4>
+            <h1 className='title-hopital'>
+                Bệnh viện chăm sóc sức khỏe
+            </h1>
+            <span className='title-mini'>
+                hiện nay các Bệnh viện có đội ngũ bác sĩ, bác sĩ phẫu thuật, y tá và đồng minh chuyên nghiệp
+            </span>
+            <br></br>
+            <span className='content-text'>
+                Hệ thống quản lý y tế toàn diện được thiết kế để hợp lý hóa các hoạt động chăm sóc sức khỏe. Hệ thống này cung cấp khả năng quản lý hồ sơ bệnh nhân, lên lịch hẹn, kiểm soát hàng tồn kho và quy trình thanh toán hiệu quả. Nó tăng cường chăm sóc bệnh nhân bằng cách cung cấp quyền truy cập theo thời gian thực vào hồ sơ y tế và đơn giản hóa các nhiệm vụ hành chính cho các nhà cung cấp dịch vụ chăm sóc sức khỏe.
+            </span>
+            <br></br>
+            <button className='primary'>Tìm hiểu thêm -></button>
         </div>
-        <div className="background-content">
-            <span className="class">Lớp Học</span>
-            <span className="List-Class">Danh sách lớp học</span>
-            <hr className="gach-chan-class-1"></hr>
-            <div className="Search">
-            <input type="text" className="search-input" placeholder="Tìm lớp..."/>
-            <button className="primary pd-3">Tìm</button>
-            </div>
-            <hr className="gach-chan-class-2"></hr>
-            {listClass && listClass.length > 0 &&
-            listClass.map((item,index) => {
-                return(
-            <Link to={`/Course-Detail/${item.id}`} key={`class-${index}`}>
-                <div className="layer-class">
-                <img src={imgScient} alt="" className="science"></img>
-                <span className="class-name">{item.className}</span>
-                <br></br>
-                <span className="course-name">Khóa học về răng hàm mặt</span>
-                <hr className="gach-chan-class-3"></hr>
-                <div className="tinh-trang">Đang diễn ra</div>
-                <div className="time-begin">18/10/2023-25/04/2024</div>
-                <div className="time-process">18 tháng</div>
-                <div className="time-schedule">Thứ 5(18:30-19h30) Thứ 7(12:00 - 14:30)</div>
-                </div>
-            </Link>
-                )
-            })
-            }
-
-            <div className="chuyen-trang">
-            <i class="fas fa-arrow-left"></i>
-            <span className="stt-trang">1</span>
-            <i class="fas fa-arrow-right"></i>  
-            </div>
+        <div className='home-content-image'>
+            <img src={imgHopital} alt='' className='hopital'/>
         </div>
-        </div>
+    </div>
     );
 };
 
-export default Myclass;
+export default Home;    

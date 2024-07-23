@@ -39,17 +39,6 @@ function HandleMenu(){
               <span className='text-menu'>Lớp Của Tôi</span>
             </li>
             </Link>
-              <Link to ="/Calendar" className='object-ngang pd-4'>
-                <span className='home-icon'>
-                  <i class="fas fa-calendar-alt"></i>
-                </span>
-                <li>
-                <span className='text-menu'>Thời Khóa Biểu</span>
-              </li>
-              </Link>
-            </div>
-            <div className='notification'>
-                <i class="fas fa-bell"></i>
             </div>
             <div className='user train' onClick={() => HandleClick()}>
                 <div className='avatar'>

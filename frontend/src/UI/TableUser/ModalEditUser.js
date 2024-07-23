@@ -100,13 +100,13 @@ useEffect(() => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Edit a user</Modal.Title>
+                <Modal.Title>Sửa người dùng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>FirstName</label>
+                        <label>Họ và tên đệm*</label>
                         <input
                             type="text"
                             className="form-control"
@@ -115,7 +115,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>LastName</label>
+                        <label>Tên*</label>
                         <input 
                             type="text" 
                             className="form-control"
@@ -124,7 +124,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email*</label>
                         <input 
                             type="text" 
                             className="form-control"
@@ -133,7 +133,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Phone</label>
+                        <label>Số điện thoại*</label>
                         <input 
                             value={phone}
                             type="text" 
@@ -142,7 +142,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Role</label>
+                        <label>Vai trò*</label>
                         <Select
                         placeholder={role}
                         defaultValue={role}
@@ -151,7 +151,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Job</label>
+                        <label>Công việc*</label>
                         <Select
                         placeholder={listJob.label}
                         defaultValue={jobId}
@@ -160,7 +160,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Gender</label>
+                        <label>Giới tính*</label>
                         <Select
                         placeholder={gender}
                         defaultValue={gender}
@@ -169,7 +169,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Image</label>
+                        <label>Ảnh đại diện*</label>
                         <input 
                             value={image}
                             type="text" 
@@ -178,7 +178,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Date Of Birth</label>
+                        <label>Ngày sinh*</label>
                         <input 
                             value={dob}
                             type="Date" 
@@ -191,10 +191,10 @@ useEffect(() => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleEditUser()}>
-                    Confirm
+                    Xác nhận
                 </Button>
                 </Modal.Footer>
             </Modal>

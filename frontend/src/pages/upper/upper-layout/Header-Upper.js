@@ -22,9 +22,6 @@ function HandleMenu(){
             <div className='menu' onClick={() => HandleClick()}>
                 <i class="fas fa-bars"></i>
             </div>
-            <div className='notification'>
-                <i class="fas fa-bell"></i>
-            </div>
             <div className='user'>
                 <div className='avatar'>
                 <i class="fas fa-user"></i>
@@ -40,9 +37,7 @@ function HandleMenu(){
         <nav className={`side-bar ${on ? '' : 'hidden-sidebar'}`}>
           <ul>
             <div className='logo'>
-              <img 
-              src='https://upload.wikimedia.org/wikipedia/vi/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg' 
-              alt='' className='logo-img'/>
+              <span className='name-hopital text-polycell'>Polycell</span>
             </div>
             <div className='object-sidebar'>
               <span className='home-icon'>
@@ -59,14 +54,6 @@ function HandleMenu(){
               <li>
               <Link to="/Grade" className='text-menu' onClick={() => HandleClick()}>Lớp</Link>
             </li>
-            </div>
-            <div className='object-sidebar'>
-              <span className='home-icon'>
-                <i class="fas fa-pager"></i>
-              </span>
-              <li>
-              <Link to="/Schedule" className='text-menu' onClick={() => HandleClick()}>Lịch nghỉ</Link>
-              </li>
             </div>
             <div className='object-sidebar'>
               <span className='home-icon'>

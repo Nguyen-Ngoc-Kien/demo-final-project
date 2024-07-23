@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import imgForest from './../../../data/image/Forestry-College-in-Tehri-Garhwal.png'
 import { Link } from 'react-router-dom';
 import { fetchQuizById } from '../../../services/UserServices';
+
 function HandleClick(){
     const [toggle, setToggle] = useState(false)
     const [click, setClick] = useState(true)
@@ -39,21 +40,17 @@ function HandleClick(){
                 </div>
             </div>
             <div className='Link-detail-class-upper w-1347'>
-                Lớp học của tôi / Kỹ Thuật Xét Nghiệm Vi Sinh Lâm Sàng / {quiz.quizName}
+                {quiz.quizName}
             </div>
             <div className='layer-top-upper-detail-class'>
                 <div className='two-layer-detail-class-upper bg-active'>
                     <i class="fas fa-file-alt course-detail"></i>
                     <span className='title-detail-class-upper'>NỘI DUNG</span>
                 </div>
-                <div className='two-layer-detail-class-upper'>
+                <Link to='/quiz-mark' className='two-layer-detail-class-upper'>
                     <i class="fas fa-star course-detail"></i>
                     <span className='title-detail-class-upper'>Điểm</span>
-                </div>
-                <div className='two-layer-detail-class-upper'>
-                    <i class="fas fa-cog cdetail course-detail"></i>
-                    <span className='title-detail-class-upper'>Câu hỏi</span>
-                </div>
+                </Link>
                 <Link to='/total-questions' className='two-layer-detail-class-upper'>
                     <i class="fas fa-cog cdetail course-detail"></i>
                     <span className='title-detail-class-upper'>Ngân hàng câu hỏi</span>

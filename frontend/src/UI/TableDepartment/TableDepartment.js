@@ -192,12 +192,12 @@ const handleDeleteUser = (user) => {
   }
   return(
     <div className='container mt-5'>
-          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new Department</button>
+          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Thêm mới khoa</button>
           <div>
             <input 
             type='text'
             className='form-control' 
-            placeholder='Search by Department.... ' 
+            placeholder='Tìm kiếm khoa.... ' 
             // value={keyword}
             onChange={(event) => handleSearch(event)}  
             />
@@ -215,14 +215,14 @@ const handleDeleteUser = (user) => {
               </div>
             </th>
             <th>
-                <span>Name</span>
+                <span>Tên khoa</span>
                 <span>
                   <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
                   <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
                 </span>
             </th>
-            <th>Description</th>
-            <th>Action</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
             {/* <th>Trạng Thái</th>
             <th>Thao tác</th> */}
           </tr>
@@ -237,8 +237,8 @@ const handleDeleteUser = (user) => {
                   <td>{item.name}</td>
                   <td>{item.description}</td>
                   <td>
-                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
-                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
+                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Sửa</button>
+                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Xóa</button>
                   </td>
                 </tr>
               )

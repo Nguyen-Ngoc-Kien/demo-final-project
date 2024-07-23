@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import { fetchClassById, fetchCourseById, fetchDepartmentById, fetchStatusById, approveClass, rejectClass } from '../../../services/UserServices';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
 const ListClass = () => {
     const [dataClass,setDataClass] = useState({})
     const [departmentId,setDepartmentId] = useState(null)
@@ -62,15 +63,31 @@ const ListClass = () => {
         const data = {}
         const res = await approveClass(dataClass.id,data,localStorage.getItem('access_token'))
         console.log('res >>>',res)
+        if(res){
+            toast.success("Duyệt lớp thành công")
+        }
+        else{
+            toast.error("Lỗi duyệt lớp")
+        }
+        setShow(false) 
+        setShow2(false) 
     }
     const handleDeleteClass = async () => {
         const data = {}
         const res = await rejectClass(dataClass.id,data,localStorage.getItem('access_token'));
         console.log('res121 >>>',res)
+        if(res){
+            toast.success("Hủy lớp thành công")
+        }
+        else{
+            toast.error("Lỗi hủy lớp")
+        }
+        setShow(false) 
+        setShow2(false) 
     }
     return (
         <div className='body m-h-1250'>
-            <div className='background h-76'>
+            <div className='background h-61'>
             <div className='content'>
             <div>
             <div className='link-resource'><Link to='/Grade'>Danh sách lớp học</Link> / {dataClass.className}</div>
@@ -126,38 +143,7 @@ const ListClass = () => {
                             <span className='label-course-detail-2-4'>{dataDepartment.name}</span>
                         </div>
                     </div>
-                        <div className='coach-detail'>
-                            <span className='title-coach'>Nguời hướng dẫn</span>
-                            <div className='layer-coach-detail'>
-                                <span className='label-coach-detail'>Tên người hướng dẫn:</span>
-                                <span className='label-coach-detail-2-1'>Phạm Hồ Quang Huy</span>
-                            </div>
-                            <div className='layer-coach-detail'>
-                                <span className='label-coach-detail'>Số điện thoại:</span>
-                                <span className='label-coach-detail-2-3'>0986574526</span>
-                            </div>
-                        </div>
                     </div>
-                        <hr className='hr-detail-class'></hr>
-                        <hr className='hr-detail-class mt-3'></hr>
-                        <div className='two-layer-end'>
-                            <div className='layer-different'>
-                                <span className='title-different'>Khác</span>
-                                <div className='two-layer-dif'>
-                                    <span className='list-student'>Danh sách học viên:</span>
-                                    <i class="fas fa-calendar-alt i1-list-class"></i>
-                                    <div className='read-list-student'>Xem</div>
-                                    <span className='count-list-student'> 15/15</span>
-                                </div>
-                                    <div className='two-layer-dif'>
-                                        <span className='list-student'>Học liệu:</span>
-                                        <Link to='View-Course-Detail'>                                
-                                            <i class="fas fa-folder-open i2-list-class"></i>
-                                            <div className='read-list-student-2'>Xem</div>
-                                        </Link>
-                                    </div>
-                            </div>
-                        </div>
             </div>
             <div className='end-body-list-class'>
                 <Link to='/Grade' className='go-back-list-class'>

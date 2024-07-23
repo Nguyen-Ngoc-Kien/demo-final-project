@@ -1,11 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAssignmentDto, EditAssignmentDto } from './dto';
-import { Response } from 'express';
+import { User } from '@prisma/client';
+import { UploadFileServiceAbstract } from 'src/file/upload-file.abstract.service';
 
 @Injectable()
 export class AssignmentService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly upload_file_service: UploadFileServiceAbstract,
+  ) {}
 
   //Get Assignments by TopicId
   async getAssignmentsByTopicId(topicId: number) {
@@ -41,12 +45,11 @@ export class AssignmentService {
   }
 
   //Get Assignment by Id
-  async getAssignmentById(assignmentId: number, res: Response) {
+  async getAssignmentById(assignmentId: number /*, res: Response */) {
     try {
       const assignment = await this.prisma.assignment.findUnique({
         where: {
           id: assignmentId,
-          isDeleted: false,
         },
       });
 
@@ -67,14 +70,14 @@ export class AssignmentService {
         throw new HttpException('File not found', HttpStatus.NOT_FOUND);
       }
 
-      for (const assignmentAttachment of assignmentAttachments) {
-        res.setHeader(
-          'Content-Disposition',
-          `attachment; filename=${assignmentAttachment}`,
-        );
-        res.setHeader('Content-Type', assignmentAttachment.mimeType);
-        res.send(assignmentAttachment.data);
-      }
+      // for (const assignmentAttachment of assignmentAttachments) {
+      //   res.setHeader(
+      //     'Content-Disposition',
+      //     `attachment; filename=${assignmentAttachment}`,
+      //   );
+      //   res.setHeader('Content-Type', assignmentAttachment.mimeType);
+      //   res.send(assignmentAttachment.data);
+      // }
 
       const assignmentAndSubmissions = {
         ...assignment,
@@ -109,20 +112,24 @@ export class AssignmentService {
         },
       });
 
-      const { originalname, mimetype, buffer } = assignmentFile;
+      const { originalname } = assignmentFile;
 
-
-      if (!originalname || !mimetype || !buffer) {
+      if (!originalname) {
         throw new Error('Invalid file data');
       }
-      
+
+      const uploaded_result =
+        await this.upload_file_service.uploadFileToPublicBucket(
+          'assignment-attachment',
+          { file: assignmentFile, file_name: originalname },
+        );
+
       //Create Attachment
       const assignmentAttachment = await this.prisma.attachment.create({
         data: {
           assignmentId: newAssignment.id,
           name: originalname,
-          mimeType: mimetype,
-          data: buffer,
+          url: uploaded_result,
         },
       });
 
@@ -167,5 +174,102 @@ export class AssignmentService {
     } catch (error) {
       throw error;
     }
+  }
+
+  //Submit Assignment By Id
+  async submitAssignmentById(
+    assignmentId: number,
+    user: User,
+    submissionFile: Express.Multer.File,
+  ) {
+    const assignmentSubmission = await this.prisma.assignmentSubmission.create({
+      data: {
+        userId: user.id,
+        assignmentId: assignmentId,
+        grade: 0,
+      },
+    });
+
+    const { originalname } = submissionFile;
+
+    if (!originalname) {
+      throw new Error('Invalid file data');
+    }
+
+    const uploaded_result =
+      await this.upload_file_service.uploadFileToPublicBucket(
+        'assignment-attachment',
+        { file: submissionFile, file_name: originalname },
+      );
+
+    const attachment = await this.prisma.attachment.create({
+      data: {
+        assignmentSubmissionId: assignmentSubmission.id,
+        name: originalname,
+        url: uploaded_result,
+      },
+    });
+
+    return { ...assignmentSubmission, attachment };
+  }
+
+  //Get Submission By Id
+  async getSubmissionById(submissionId: number) {
+    const submissionAssignment =
+      await this.prisma.assignmentSubmission.findUnique({
+        where: {
+          id: submissionId,
+        },
+      });
+
+    const submissionAttachment = await this.prisma.attachment.findMany({
+      where: {
+        assignmentSubmissionId: submissionId,
+      },
+    });
+
+    const submission = { ...submissionAssignment, submissionAttachment };
+
+    return submission;
+  }
+
+  async gradeAssignmentSubmissionById(submissionId: number, grade: number) {
+    await this.prisma.assignmentSubmission.update({
+      where: {
+        id: submissionId,
+      },
+      data: {
+        grade: grade['grade'],
+      },
+    });
+
+    return true;
+  }
+
+  async getGradesOfAssignment(assignmentId: number) {
+    //Get all Submission of Assignment
+    const allSubmissionOfAssignment =
+      await this.prisma.assignmentSubmission.findMany({
+        where: {
+          assignmentId: assignmentId,
+        },
+      });
+
+    const allSubmissionAndTrainee = [];
+
+    for (const submission of allSubmissionOfAssignment) {
+      const traineeSubmit = await this.prisma.user.findUnique({
+        where: {
+          id: submission.userId,
+        },
+      });
+      delete traineeSubmit.hash;
+      delete traineeSubmit.hashedRt;
+
+      const traineSubmission = { ...submission, traineeSubmit };
+      allSubmissionAndTrainee.push(traineSubmission);
+    }
+
+    return allSubmissionAndTrainee;
   }
 }

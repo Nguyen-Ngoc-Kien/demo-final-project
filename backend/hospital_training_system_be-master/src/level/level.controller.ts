@@ -24,7 +24,7 @@ export class LevelController {
   constructor(private levelService: LevelService) {}
 
   //Get All Levels
-  @Roles('ADMIN' , 'TRAINER')
+  @Roles('ADMIN', 'TRAINER')
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @Get('')

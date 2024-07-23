@@ -2,13 +2,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
 import {toast } from 'react-toastify';
-import { deleteClass } from '../../services/UserServices';
+import { deleteUser } from '../../services/UserServices';
 
 const ModalConfirm = (props) => {
     const {show, handleClose, dataUserDelete, handleDeleteUserFromModal} = props
     
 const confirmDelete = async () => {
-    let res = await deleteClass(dataUserDelete.id,localStorage.getItem("access_token"));
+    let res = await deleteUser(dataUserDelete.id,localStorage.getItem("access_token"));
     console.log("Check res delete >>>",res)
     if (res === true){
         toast.success("Delete User Success")
@@ -25,21 +25,21 @@ const confirmDelete = async () => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Delete A User</Modal.Title>
+                <Modal.Title>Xóa người dùng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
-                    this action can't be undone!
+                    Hành động không thể hoàn tác
                     <br></br>
-                    Are you sure to delete this user,<br></br>  <b> Name ={" " + dataUserDelete.firstName + " " + dataUserDelete.lastName}</b>
+                    Xác nhận xóa người dùng,<br></br>  <b> Tên người dùng :{" " + dataUserDelete.firstName + " " + dataUserDelete.lastName}</b>
                 </div>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => confirmDelete()}>
-                    Confirm
+                    Xác nhận
                 </Button>
                 </Modal.Footer>
             </Modal>

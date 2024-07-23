@@ -42,13 +42,13 @@ useEffect(() => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Edit a Course</Modal.Title>
+                <Modal.Title>Sửa trạng thái lớp học</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>statusClass</label>
+                        <label>Tên trạng thái</label>
                         <input
                             type="text"
                             className="form-control"
@@ -57,7 +57,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input 
                             value={description}
                             type="text" 
@@ -70,10 +70,10 @@ useEffect(() => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleEditUser()}>
-                    Confirm
+                    Xác nhận
                 </Button>
                 </Modal.Footer>
             </Modal>

@@ -57,7 +57,7 @@ export class UserController {
     return await this.userService.getUsers(querry);
   }
 
-  @Roles('ADMIN')
+  @Roles('ADMIN' , 'TRAINER')
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @Get(':id')

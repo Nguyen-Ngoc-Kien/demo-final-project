@@ -17,6 +17,8 @@ import { CreateCourseDto, EditCourseDto } from './dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { GetCurrentUser } from 'src/common/decorators';
+import { User } from '@prisma/client';
 
 @Controller('course')
 @ApiTags('course')
@@ -40,7 +42,7 @@ export class CourseController {
   }
 
   //Get Course By Id
-  @Roles('ADMIN' , 'UPPER' , 'TRAINEE')
+  @Roles('ADMIN' , 'TRAINER' , 'TRAINEE' , 'UPPER')
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @Get(':id')
@@ -76,5 +78,17 @@ export class CourseController {
   @Delete('deleteCourse/:id')
   async deleteCourseById(@Param('id', ParseIntPipe) courseId: number) {
     return await this.courseService.deleteCourseById(courseId);
+  }
+
+  //Get Course Grade of User
+  @Roles('TRAINEE')
+  @UseGuards(RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get('grade/:courseId')
+  async getGradeOfCourse(
+    @GetCurrentUser() user: User,
+    @Param('courseId', ParseIntPipe) courseId: number,
+  ) {
+    return await this.courseService.getGradeOfCourse(user, courseId);
   }
 }

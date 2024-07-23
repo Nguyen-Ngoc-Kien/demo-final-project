@@ -8,7 +8,10 @@ import Quiz from '../trainee-components/Quiz';
 import DetailQuiz from '../../quizz/DetailQuiz';
 import HistoryGrade from '../trainee-components/HistoryGrade';
 import Register from '../trainee-components/Register';
+import ReviewQuiz from '../trainee-components/ReviewQuiz/ReviewQuiz';
 import ViewCourseDetail from '../trainee-components/ViewCourseRegister';
+import Assignment from '../trainee-components/Assignment';
+import ExternalResourceDetail from '../trainee-components/ExternalResourceDetail';
 
 const Body = () => {
     return (
@@ -42,7 +45,16 @@ const Body = () => {
           path='/Register' element={<Register/>}
           />
           <Route 
+          path='/ReviewQuiz' element={<ReviewQuiz/>}
+          />
+          <Route 
           path='/registerClassDetail' element={<ViewCourseDetail/>}
+          />
+          <Route 
+          path='/assignment' element={<Assignment/>}
+          />
+          <Route 
+          path='/external-resource-detail' element={<ExternalResourceDetail/>}
           />
         </Routes>
     </div>

@@ -74,13 +74,13 @@ useEffect(() => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Edit a Course</Modal.Title>
+                <Modal.Title>Sửa khóa học</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>courseName</label>
+                        <label>Tên khóa học</label>
                         <input
                             type="text"
                             className="form-control"
@@ -89,7 +89,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>department</label>
+                        <label>Khoa</label>
                         <Select
                         defaultValue={departmentId}
                         options={listDepartment}
@@ -106,7 +106,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input 
                             value={description}
                             type="text" 
@@ -115,7 +115,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>totalSession</label>
+                        <label>Tổng số buổi</label>
                         <input 
                             value={totalSession}
                             type="text" 
@@ -128,10 +128,10 @@ useEffect(() => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleEditUser()}>
-                    Confirm
+                    Lưu
                 </Button>
                 </Modal.Footer>
             </Modal>

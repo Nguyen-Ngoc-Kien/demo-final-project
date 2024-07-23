@@ -25,21 +25,21 @@ const confirmDelete = async () => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Delete A Department</Modal.Title>
+                <Modal.Title>Xóa khoa</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
-                    this action can't be undone!
+                    Hành động không thể hoàn tác
                     <br></br>
-                    Are you sure to delete this Department,<br></br>  <b> Name ={" " + dataUserDelete.name}</b>
+                    Xác nhận xóa khoa ,<br></br>  <b> Tên khoa :{" " + dataUserDelete.name}</b>
                 </div>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => confirmDelete()}>
-                    Confirm
+                    Xác nhận
                 </Button>
                 </Modal.Footer>
             </Modal>

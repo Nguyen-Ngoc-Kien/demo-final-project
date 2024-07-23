@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 const CountDown = (props) => {
     const { quiz } = props;
 
-    // Kiểm tra và xử lý giá trị của quiz.timeLimit
-    const initialTimeLimit = quiz && quiz.timeLimit && Number.isInteger(quiz.timeLimit) && quiz.timeLimit > 0 ? quiz.timeLimit : 10; // Giá trị mặc định là 10 nếu không có giá trị hợp lệ từ quiz
+    // Determine initialTimeLimit based on quiz.timeLimit
+    const initialTimeLimit = (parseInt(quiz.timeLimit)) ? parseInt(quiz.timeLimit) : 10; // Default to 10 if quiz.timeLimit is invalid
 
-    const [count, setCount] = useState(initialTimeLimit * 60);
+    const [count, setCount] = useState(initialTimeLimit * 60); // Convert minutes to seconds
 
     const toHHMMSS = (secs) => {
         const sec_num = parseInt(secs, 10);
@@ -21,16 +21,19 @@ const CountDown = (props) => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            if (count === 0) {
-                clearInterval(timer);
-                props.onTimeUp();
-            } else {
-                setCount(count - 1);
-            }
+            setCount(prevCount => {
+                if (prevCount <= 0) {
+                    clearInterval(timer);
+                    props.onTimeUp();
+                    return 0;
+                } else {
+                    return prevCount - 1;
+                }
+            });
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [count]);
+    }, []);
 
     return (
         <div>

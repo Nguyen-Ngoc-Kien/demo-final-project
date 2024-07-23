@@ -11,6 +11,9 @@ import Location from '../admin-components/Locate';
 import AddClass from '../admin-components/AddClass';
 import DuyetLop from '../admin-components/DuyetLop';
 import Level from '../admin-components/Level';
+import DetailClass from '../admin-components/DetailClass';
+import DetailUser from '../admin-components/DetailUser.js';
+import StatusClass from '../admin-components/StatusClass';
 import DetailQuiz from '../../quizz/DetailQuiz';
 
 
@@ -53,6 +56,15 @@ const Body = () => {
           />
           <Route
           path='/Level' element={<Level/>}
+          ></Route>
+          <Route
+          path='/StatusClass' element={<StatusClass/>}
+          ></Route>
+          <Route
+          path='/Class-detail' element={<DetailClass/>}
+          ></Route>
+          <Route
+          path='/Detail-User' element={<DetailUser/>}
           ></Route>
         </Routes>
         <Routes>

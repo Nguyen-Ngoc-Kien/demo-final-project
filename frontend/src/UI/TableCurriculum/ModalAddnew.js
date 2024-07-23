@@ -17,6 +17,14 @@ const ModalAddnew = (props) => {
     }
 
     const handleSaveUser = async () => {
+        if (!Form.curriculumName) {
+            toast.error("Vui lòng điền tên khung chương trình!");
+            return;
+        }
+        if (!Form.duration) {
+            toast.error("Vui lòng điền thời gian học!");
+            return;
+        }
         console.log(Form)
         let res = await PostCreateCurriculum(Form,localStorage.getItem("access_token"));
         console.log("check res ==> ", res)
@@ -34,13 +42,13 @@ const ModalAddnew = (props) => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new Curriculum</Modal.Title>
+                <Modal.Title>Thêm mới khung chương trình</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>CurriculumName</label>
+                        <label>Tên khung chương trình*</label>
                         <input
                             name='curriculumName'
                             type="text"
@@ -49,7 +57,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Duration</label>
+                        <label>Thời gian học*</label>
                         <input
                             name='duration'
                             type="text"
@@ -58,7 +66,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
+                        <label>Mô tả</label>
                         <input 
                             name='description'
                             type="text" 
@@ -71,10 +79,10 @@ const ModalAddnew = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleSaveUser()}>
-                    Save Changes
+                    Lưu
                 </Button>
                 </Modal.Footer>
             </Modal>

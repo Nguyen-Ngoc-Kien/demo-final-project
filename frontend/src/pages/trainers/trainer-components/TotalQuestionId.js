@@ -28,21 +28,17 @@ const ToTalQuestionId = () => {
             </div>
         </div>
         <div className='Link-detail-class-upper w-1347'>
-            Lớp học của tôi / Kỹ Thuật Xét Nghiệm Vi Sinh Lâm Sàng / {quiz.quizName}
+            {quiz.quizName}
         </div>
         <div className='layer-top-upper-detail-class'>
             <Link to='/quiz' className='two-layer-detail-class-upper'>
                 <i class="fas fa-file-alt course-detail"></i>
                 <span className='title-detail-class-upper'>NỘI DUNG</span>
             </Link>
-            <div className='two-layer-detail-class-upper'>
+            <Link to='/quiz-mark' className='two-layer-detail-class-upper'>
                 <i class="fas fa-star course-detail"></i>
                 <span className='title-detail-class-upper'>Điểm</span>
-            </div>
-            <div className='two-layer-detail-class-upper'>
-                <i class="fas fa-cog cdetail course-detail"></i>
-                <span className='title-detail-class-upper'>Câu hỏi</span>
-            </div>
+            </Link>
             <Link to='/total-questions' className='two-layer-detail-class-upper bg-active'>
                 <i class="fas fa-cog cdetail course-detail"></i>
                 <span className='title-detail-class-upper'>Ngân hàng câu hỏi</span>

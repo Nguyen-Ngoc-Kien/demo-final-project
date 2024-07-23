@@ -5,6 +5,7 @@ const Course = () => {
         <div>
             <div className='body'>
                 <div className='background'>
+                <span className='title-grade t-center mt-5'>Danh Sách Khóa Học</span>
                 <div className='content'>
                     <TableCourse></TableCourse>
                 </div>

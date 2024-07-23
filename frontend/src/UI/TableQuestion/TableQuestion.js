@@ -197,7 +197,7 @@ const handleDeleteUser = (user) => {
   return(
     <div className='container mt-5'>
     <Link to='/manager-questions'>
-      <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser'>Add new Question</button>
+      <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser'>Thêm câu hỏi</button>
     </Link>
 
           <div>
@@ -222,14 +222,14 @@ const handleDeleteUser = (user) => {
               </div>
             </th>
             <th>
-                <span>questionName</span>
+                <span>Tên câu hỏi</span>
                 <span>
                   <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
                   <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
                 </span>
             </th>
-            <th>Detail</th>
-            <th>Action</th>
+            <th>Chi tiết</th>
+            <th>Hành động</th>
             {/* <th>Trạng Thái</th>
             <th>Thao tác</th> */}
           </tr>
@@ -248,8 +248,8 @@ const handleDeleteUser = (user) => {
                     </Link>
                     </td>
                   <td>
-                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
-                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
+                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Sửa</button>
+                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Xóa</button>
                   </td>
                 </tr>
               )

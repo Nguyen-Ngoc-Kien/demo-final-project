@@ -20,46 +20,52 @@ const Signout = () => {
     const HandleLogin = async () => {
         // setTimeout(isShowLoad(true), 2000);
         if(!email || !password){
-            toast.error("email/Password is Required!")
+            toast.error("Email và mật khẩu là bắt buộc!");
             return;
         }
-        let res = await loginApi(email,password)
-        console.log(res)
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            toast.error("Yêu cầu nhập tài khoản có dạng email!");
+            return;
+        }
+        let res = await loginApi(email,password);
+        // console.log("res login >>",res)
         if(res && res.access_token ) {
-            let datauser = await fetchUserProfile(res.access_token)
-            console.log("Datauser >>>",datauser)
+            let datauser = await fetchUserProfile(res.access_token);
+            console.log("Datauser >>>",datauser);
             if(datauser && datauser.isDeleted === false){
-                localStorage.setItem("role", datauser.role)
-                localStorage.setItem("access_token", res.access_token)
-                localStorage.setItem("refresh_token", res.access_token)
-            }
-            if(localStorage.getItem("role") && localStorage.getItem("refresh_token") && localStorage.getItem("access_token")){
+                localStorage.setItem("role", datauser.role);
+                localStorage.setItem("access_token", res.access_token);
+                localStorage.setItem("refresh_token", res.access_token);
+                localStorage.setItem("idUser", datauser.id);
+                
                 if(localStorage.getItem("role") === "ADMIN"){
-                    navigate("/")
-                    toast.success("Đăng nhập thành công")
-                    // console.log("role admin>>>",role)
+                    navigate("/Home");
+                    toast.success("Đăng nhập thành công");
                 }
                 else if(localStorage.getItem("role") === "UPPER"){
-                    navigate("/")
-                    toast.success("Đăng nhập thành công")
+                    navigate("/Home");
+                    toast.success("Đăng nhập thành công");
                 }
                 else if(localStorage.getItem("role") === "TRAINER"){
-                    navigate("/")
-                    toast.success("Đăng nhập thành công")
+                    navigate("/Home");
+                    toast.success("Đăng nhập thành công");
                 }
                 else if(localStorage.getItem("role") === "TRAINEE"){
-                    navigate("/")
-                    toast.success("Đăng nhập thành công")
+                    navigate("/Home");
+                    toast.success("Đăng nhập thành công");
                 }
+            } else {
+                toast.error("Email hoặc mật khẩu không chính xác!");
             }
-
-        }
-        else{
+        } else {
             if(res && res.status === 400){
-                toast.error(res.data.error)
+                toast.error("Yêu cầu nhập đúng tài khoản, mật khẩu");
+            }
+            if(res && res.status === 403){
+                toast.error("Yêu cầu nhập đúng tài khoản, mật khẩu");
             }
         }
-    }
+    };
     const override = {
         position: "absolute",
         top: "0",

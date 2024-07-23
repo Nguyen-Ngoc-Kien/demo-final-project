@@ -83,9 +83,9 @@ const Questions = (props) => {
         console.log("CHECK TYPE, ID >>>",type,questionId,answerId)
         if(type === "ADD"){
             const NewAnswer = {
-                        id: uuidv4(),
-                        answerName:'',
-                        isCorrect: false       
+                id: uuidv4(),
+                answerName:'',
+                isCorrect: false       
             }
             let index = questionClone.findIndex(item => item.id === questionId)
             questionClone[index].answers.push(

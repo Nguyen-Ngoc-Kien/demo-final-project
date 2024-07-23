@@ -47,13 +47,13 @@ useEffect(() => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Edit a Department</Modal.Title>
+                <Modal.Title>Sửa khoa</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>departmentName</label>
+                        <label>Tên khoa</label>
                         <input
                             type="text"
                             className="form-control"
@@ -62,7 +62,7 @@ useEffect(() => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input 
                             type="text" 
                             className="form-control"

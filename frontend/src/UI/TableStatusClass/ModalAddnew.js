@@ -15,8 +15,13 @@ const ModalAddnew = (props) => {
             ...Form,
             [event.target.name]:event.target.value
         })
+        
     }
     const handleSaveCourse = async () => {
+        if (statusClass === '') {
+            toast.error("Vui lòng điền thông tin tên trạng thái lớp học!");
+            return;
+        }
         console.log(Form)
         let res = await PostCreateStatusClass({
             "statusClass" :statusClass,
@@ -30,20 +35,19 @@ const ModalAddnew = (props) => {
         else{
             toast.error("An ERROR...  ")
             handleClose();
-            //error
         }
     }
     return (
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new StatusClass</Modal.Title>
+                <Modal.Title>Thêm mới trạng thái lớp học</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>statusClass</label>
+                        <label>Tên trạng thái*</label>
                         <input
                             name='statusClass'
                             type="text"
@@ -52,7 +56,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input 
                             name='description'
                             type="text" 
@@ -65,10 +69,10 @@ const ModalAddnew = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleSaveCourse()}>
-                    Save Changes
+                    Lưu
                 </Button>
                 </Modal.Footer>
             </Modal>

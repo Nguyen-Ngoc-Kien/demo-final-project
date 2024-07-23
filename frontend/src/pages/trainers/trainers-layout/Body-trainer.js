@@ -15,6 +15,9 @@ import Questions from '../../question/Questions';
 import TotalQuestionId from '../trainer-components/TotalQuestionId'
 import DetailQuestion from '../trainer-components/DetailQuestion'
 import Mark from '../trainer-components/Mark';
+import ExternalResource from '../trainer-components/ExternalResource';
+import ExternalResourceDetail from '../trainer-components/ExternalResourceDetail';
+import MarkQuiz from '../trainer-components/MarkQuiz';
 
 const Body = (props) => {
     return (
@@ -67,6 +70,15 @@ const Body = (props) => {
           />
           <Route 
           path='/mark' element={<Mark/>}
+          />
+          <Route 
+          path='/External-Resource' element={<ExternalResource/>}
+          />
+          <Route 
+          path='/External-Resource-detail' element={<ExternalResourceDetail/>}
+          />
+          <Route 
+          path='/quiz-mark' element={<MarkQuiz/>}
           />
         </Routes>
     </div>

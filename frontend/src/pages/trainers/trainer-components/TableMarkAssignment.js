@@ -4,86 +4,170 @@ import ReactPaginate from 'react-paginate';
 import { ToastContainer, toast } from 'react-toastify';
 import _, { debounce } from 'lodash';
 import { useParams } from 'react-router-dom';
-
+import { fetchGradesAssignment, fetchUserById, patchGradeSubmission, submissionAssignment } from '../../../services/UserServices';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const TableUsers = (props) => {
-  const params = useParams();
-  const quizId = params.id
-  console.log("quizId >>>",quizId)
-
-  const [listUser,setListUser] = useState([]);
+  const zero = 0;
+  const [gradesAssignment, setGradesAssignment] = useState([]);
+  const [listUser, setListUser] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [isShowModalAddNew,setIsShowModalAddNew] = useState(false);
-
+  const [grade, setGrade] = useState(0);
+  const [idSubmission, setIdSubmission] = useState(1);
+  const [listTrainee, setListTrainee] = useState([]);
   const [sortBy, setSortBy] = useState("asc");
   const [sortField, setSortField] = useState("id");
+  const [show, setShow] = useState(false);
+  const [listSubmissionAssignment, setListSubmissionAssignment] = useState([]);
 
-  const handleUpdateTable = (user) => {
-    setListUser([user, ...listUser]);
+  // Fetch grades assignment data
+  const fetchSubmissionAssignment = async () => {
+    const res = await submissionAssignment(idSubmission,localStorage.getItem('access_token'))
+    console.log("fetch >>>",res)
+    setListSubmissionAssignment(res)
   }
-  const handleSort = (sortBy, sortField) => {
-    setSortBy(sortBy)
-    setSortField(sortField)
-    // console.log("SortBy, Sortfield >>> ",sortBy, sortField)
-    let cloneListUsers = _.cloneDeep(listUser);
-    cloneListUsers = _.orderBy(cloneListUsers, [sortField], [sortBy])
-    setListUser(cloneListUsers)
-  }
+  useEffect(() => {
+    const getGradesAssignment = async () => {
+      try {
+        const res = await fetchGradesAssignment(localStorage.getItem("idAssignment"), localStorage.getItem("access_token"));
+        console.log("grade >>>", res);
+        setGradesAssignment(res);
+      } catch (error) {
+        console.error("Error fetching grades assignment:", error);
+      }
+    };
+    getGradesAssignment();
+  }, []);
+
+  // Fetch user details for each item in gradesAssignment
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const userDetailsPromises = gradesAssignment.map(async (item) => {
+        const user = await fetchUserById(item.userId, localStorage.getItem('access_token'));
+        return user;
+      });
+      const userDetails = await Promise.all(userDetailsPromises);
+      // Extracting only the necessary data (e.g., name)
+      const traineeNames = userDetails.map(user => ({
+        userId: user.id,
+        name: `${user.firstName} ${user.lastName}` // Adjust according to your API response structure
+      }));
+      setListTrainee(traineeNames);
+    };
+    fetchUserDetails();
+  }, [gradesAssignment]); // Dependency on gradesAssignment
+
+  useEffect(() => {
+    fetchSubmissionAssignment()
+  },[idSubmission])
+
+  // Handle page click
   const handlePageClick = (event) => {
+    // Implement pagination logic here
+  };
 
+  // Handle sorting
+  const handleSort = (sortBy, sortField) => {
+    setSortBy(sortBy);
+    setSortField(sortField);
+    let cloneListUsers = _.cloneDeep(listUser);
+    cloneListUsers = _.orderBy(cloneListUsers, [sortField], [sortBy]);
+    setListUser(cloneListUsers);
+  };
+
+  const viewDetail = (item) => {
+    setIdSubmission(item.id)
+    setShow(true)
   }
-  return(
+  const handleClose = () => {
+    setShow(false)
+  }
+  const handleSubmit = async (id) => {
+    if(grade > 10 || grade < 0){
+      toast.error("Giá trị điểm phải từ 0.0 -> 10.0")
+      return;
+    }
+    const res = await patchGradeSubmission(id,{
+      "grade":grade
+    },localStorage.getItem("access_token"))
+    console.log("Grade >>>",res)
+    if(res && res.status !== 400 && res.status !== 401 && res.status !== 402 && res.status !== 403 && res.status !== 404){
+      toast.success("Thay đổi điểm thành công")
+    }
+    else{
+      toast.error("Lỗi khi thay đổi điểm")
+    }
+  }
+
+  return (
     <div className='container mt-5'>
-      <Table >
+      <Table>
         <thead>
           <tr>
             <th>
               <div className='sort-header'>
                 <span>ID</span>
                 <span>
-                  <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","id")}></i>
-                  <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","id")}></i>
+                  <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc", "id")}></i>
+                  <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc", "id")}></i>
                 </span>
               </div>
             </th>
             <th>
-                <span>Tên</span>
-                <span>
-                  <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
-                  <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
-                </span>
+              <span>Tên</span>
             </th>
             <th>
-            <div className='sort-header'>
+              <div className='sort-header'>
                 <span>Điểm</span>
               </div>
             </th>
-            <th>Ghi chú</th>
-            <th>Chi Tiêt</th>
+            <th>Chi Tiết</th>
             <th>Trạng Thái</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
-                <tr key={`users`}>
-                  <td>item.id</td>
-                  <td>item.quizName</td>
-                  <td>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Mark"/>
-                    </div>
-                  </td>
-                  <td>                   
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Note"/>
-                    </div></td>
-                  <td>
-                    <i class="far fa-eye icon-td-5"></i>
-                  </td>
-                  <td>
-                    <div className='status-save'>Chưa lưu</div>
-                  </td>
-                </tr>
+          {gradesAssignment && gradesAssignment.length > 0 &&
+            gradesAssignment.map((item, index) => (
+              <tr key={index}>
+                <td>{item.userId}</td>
+                <td>{listTrainee[index]?.name}</td>
+                <td>
+                  <div className="form-group">
+                    <input type="text" className="form-control" id={`mark-${index}`} aria-describedby="emailHelp" placeholder="Enter Mark" defaultValue={item.grade} onChange={(event) => setGrade(event.target.value)} />
+                  </div>
+                </td>
+                <td>
+                  <i className="far fa-eye icon-td-5" onClick={() => viewDetail(item)}></i>
+                </td>
+                <td>
+                  <div className='status-save'>{item.grade === '0' ? 'Chưa lưu' : 'Đã lưu'}</div>
+                </td>
+                <td>
+                  <div className='btn btn-success' onClick={() => handleSubmit(item.id)}>Chấm điểm</div>
+                </td>
+              </tr>
+            ))}
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Chi tiết bài làm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    {listSubmissionAssignment && listSubmissionAssignment.submissionAttachment && listSubmissionAssignment.submissionAttachment[0] && (
+                      <div>
+                        <span className='fs-14'>{listSubmissionAssignment.submissionAttachment[0].name}</span>
+                        <a href={listSubmissionAssignment.submissionAttachment[0].url}><i className="fas fa-folder-open ml-3 fs-14"></i></a>
+                      </div>
+                    )}
+                  </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    </Modal.Footer>
+              </Modal>
         </tbody>
       </Table>
       <ReactPaginate
@@ -116,16 +200,15 @@ const TableUsers = (props) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        />
+      />
     </div>
-  )
-}
-
+  );
+};
 
 function TableQuiz() {
   return (
     <div>
-      {TableUsers()}
+      <TableUsers />
     </div>
   );
 }

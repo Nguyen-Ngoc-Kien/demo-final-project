@@ -192,12 +192,12 @@ const handleDeleteUser = (user) => {
   }
   return(
     <div className='container mt-5'>
-          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new course</button>
+          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Thêm khóa học</button>
           <div>
             <input 
             type='text'
             className='form-control' 
-            placeholder='Search by Course.... ' 
+            placeholder='Tìm kiếm khóa học... ' 
             // value={keyword}
             onChange={(event) => handleSearch(event)}  
             />
@@ -215,7 +215,7 @@ const handleDeleteUser = (user) => {
               </div>
             </th>
             <th>
-                <span>courseName</span>
+                <span>Tên khóa học</span>
                 <span>
                   <i className="fas fa-long-arrow-alt-up arr-table" onClick={() => handleSort("asc","first_name")}></i>
                   <i className="fas fa-long-arrow-alt-down arr-table" onClick={() => handleSort("desc","first_name")}></i>
@@ -223,14 +223,14 @@ const handleDeleteUser = (user) => {
             </th>
             <th>
             <div className='sort-header'>
-                <span>departmentId</span>
+                <span>Khoa</span>
               </div>
             </th>
-            <th>createdAt</th>
-            <th>updatedAt</th>
-            <th>description</th>
-            <th>Detail</th>
-            <th>Action</th>
+            <th>Ngày khởi tạo</th>
+            <th>Ngày cập nhật</th>
+            <th>Mô tả</th>
+            <th>Chi tiết</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -249,8 +249,8 @@ const handleDeleteUser = (user) => {
                     <i class="far fa-eye icon-td-5"></i>
                   </td>
                   <td>
-                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
-                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
+                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Sửa</button>
+                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Xóa</button>
                   </td>
                 </tr>
               )

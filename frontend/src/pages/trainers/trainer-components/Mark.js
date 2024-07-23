@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TableMarkAssignment from './TableMarkAssignment'
+import { fetchAssignmentById } from '../../../services/UserServices';
 
 const Mark = () => {
+    const [assignment, setAssignment] = useState(null);
+    useEffect(() => {
+        getAssignmentById();
+    }, []);
+
+    const getAssignmentById = async () => {
+        try {
+            const res = await fetchAssignmentById(localStorage.getItem("idAssignment"), localStorage.getItem("access_token"));
+            console.log("check res123 >>>", res);
+
+            if (res && res.assignmentAttachments) {
+                setAssignment(res);
+
+            } else {
+                console.error('Empty response or missing assignmentAttachments:', res);
+            }
+        } catch (error) {
+            console.error('Error fetching assignment:', error);
+        }
+    };
     return (
         <div>
             <div className='body'>
@@ -14,17 +35,21 @@ const Mark = () => {
                     </div>
                     <div className='text-assignment'>
                         <span className='title-span-assignment'>Bài tập lớn</span>
-                        <span className='title-span-assignment-2'>Tầm Quan Trọng Của Vệ Sinh Răng Miệng</span>
+                        {
+                                assignment && (
+                                    <span className='title-span-assignment-2'>{assignment.name}</span>
+                                )
+                        }
                     </div>
                 </div>
                 <div className='Link-detail-class-upper w-1347'>
-                    Lớp học của tôi / Kỹ Thuật Xét Nghiệm Vi Sinh Lâm Sàng / Tạo bài tập lớn / Chấm điểm
+                    Chấm điểm
                 </div>
                 <div className='layer-top-upper-detail-class'>
                     <Link to='/assignment' className='two-layer-detail-class-upper'>
                         <i class="fas fa-file-alt course-detail"></i>
                         <span className='title-detail-class-upper'>NỘI DUNG</span>
-                    </Link>
+             )       </Link>
                     <Link to='/mark' className='two-layer-detail-class-upper  bg-active'>
                         <i class="fas fa-cog cdetail course-detail"></i>
                         <span className='title-detail-class-upper'>CHẤM ĐIỂM</span>

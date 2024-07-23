@@ -190,12 +190,12 @@ const handleDeleteUser = (user) => {
   }
   return(
     <div className='container mt-5'>
-          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Add new Level</button>
+          <button className='btn btn-success d-flex justify-spacebetween btn-addnewuser' onClick={() => setIsShowModalAddNew(true)}>Thêm mới mức độ câu hỏi</button>
           <div>
             <input 
             type='text'
             className='form-control' 
-            placeholder='Search by Level.... ' 
+            placeholder='Tìm kiếm mức độ câu hỏi... ' 
             // value={keyword}
             onChange={(event) => handleSearch(event)}  
             />
@@ -212,9 +212,9 @@ const handleDeleteUser = (user) => {
                 </span>
               </div>
             </th>
-            <th>Level</th>
-            <th>Description</th>
-            <th>Action</th>
+            <th>Mức độ</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
             {/* <th>Trạng Thái</th>
             <th>Thao tác</th> */}
           </tr>
@@ -229,8 +229,8 @@ const handleDeleteUser = (user) => {
                   <td className='level-w'>{item.level}</td>
                   <td className='level-w'>{item.description}</td>
                   <td>
-                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Edit</button>
-                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Delete</button>
+                    <button className='btn btn-warning' onClick={() => handleEditUser(item)}>Sửa</button>
+                    <button className='btn btn-danger' onClick={() => handleDeleteUser(item)}>Xóa</button>
                   </td>
                 </tr>
               )

@@ -17,6 +17,10 @@ const ModalAddnew = (props) => {
     }
 
     const handleSaveUser = async () => {
+        if (!Form.level) {
+            toast.error("Vui lòng điền thông tin tên mức độ câu hỏi!");
+            return;
+        }
         console.log("Form >>>",Form)
         let res = await PostCreateLevel(Form,localStorage.getItem("access_token"));
         console.log("check res ==> ", res)
@@ -34,13 +38,13 @@ const ModalAddnew = (props) => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new Level</Modal.Title>
+                <Modal.Title>Thêm mức độ câu hỏi</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>Level</label>
+                        <label>Tên mức độ câu hỏi*</label>
                         <input
                             name='level'
                             type="text"
@@ -49,7 +53,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
+                        <label>Mô tả</label>
                         <input
                             name='description'
                             type="text"

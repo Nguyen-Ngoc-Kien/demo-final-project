@@ -17,6 +17,10 @@ const ModalAddnew = (props) => {
     }
 
     const handleSaveUser = async () => {
+        if (!Form.courseId || !Form.topicName || !Form.topicNo || !Form.topicWeight || !Form.quizWeight || !Form.assignmentWeight) {
+            toast.error("Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
         console.log("Form >>>",Form)
         let res = await PostCreateTopicCourse(Form,localStorage.getItem("access_token"));
         console.log("check res ==> ", res)
@@ -34,13 +38,13 @@ const ModalAddnew = (props) => {
         <div className='modal-add-new'>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new Topic</Modal.Title>
+                <Modal.Title>Thêm chủ đề</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>courseId</label>
+                        <label>Id khóa học*</label>
                         <input
                             name='courseId'
                             type="text"
@@ -49,7 +53,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>topicName</label>
+                        <label>Tên chủ đề*</label>
                         <input
                             name='topicName'
                             type="text"
@@ -58,7 +62,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>topicNo</label>
+                        <label>Số thứ tự chủ đề*</label>
                         <input
                             name='topicNo'
                             type="text"
@@ -67,7 +71,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input
                             name='description'
                             type="text"
@@ -76,7 +80,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>topicWeight</label>
+                        <label>Trọng số điểm topic*</label>
                         <input
                             name='topicWeight'
                             type="text"
@@ -85,7 +89,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>quizWeight</label>
+                        <label>Trọng số điểm bài quiz*</label>
                         <input
                             name='quizWeight'
                             type="text"
@@ -94,7 +98,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>assignmentWeight</label>
+                        <label>Trọng số điểm bài assignment*</label>
                         <input
                             name='assignmentWeight'
                             type="text"
@@ -107,10 +111,10 @@ const ModalAddnew = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleSaveUser()}>
-                    Save Changes
+                    Lưu
                 </Button>
                 </Modal.Footer>
             </Modal>

@@ -34,13 +34,13 @@ const ModalAddnew = (props) => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new user</Modal.Title>
+                <Modal.Title>Thêm mới lớp</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>Course ID</label>
+                        <label>ID lớp học</label>
                         <input
                             name='courseId'
                             type="text"
@@ -49,7 +49,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Class Name</label>
+                        <label>Tên lớp học</label>
                         <input
                             name='className'
                             type="text"

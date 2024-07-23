@@ -103,9 +103,9 @@ export class QuestionService {
         },
       });
 
-      const question = this.getQuestionById(newQuestion.id )
+      const question = this.getQuestionById(newQuestion.id);
 
-      return newQuestion;
+      return question;
     } catch (error) {
       throw error;
     }

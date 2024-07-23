@@ -11,7 +11,7 @@ const Myclass = (props) => {
     },[])
     const getClass = async (page) => {
         const res = await fetchAllClass(page,localStorage.getItem("access_token"))
-        // console.log(res)
+        console.log(res)
         if(res && res.length > 0){
             setListClass(res)
         }
@@ -25,7 +25,7 @@ const Myclass = (props) => {
             <img src={imgForest} alt="" className="img-forest"></img>
         </div>
         <div className="background-content">
-            <span className="class">Lớp Học Mở Đăng Ký</span>
+            <span className="class l-40">Lớp Học Mở Đăng Ký</span>
             <span className="List-Class">Danh sách lớp học mở đăng ký</span>
             <hr className="gach-chan-class-1"></hr>
             <div className="Search">
@@ -35,21 +35,24 @@ const Myclass = (props) => {
             <hr className="gach-chan-class-2"></hr>
             {listClass && listClass.length > 0 &&
             listClass.map((item,index) => {
-                return(
-            <Link to='/registerClassDetail' key={`class-${index}`} onClick={() => localStorage.setItem('classId',item.id)}>
-                <div className="layer-class">
-                <img src={imgScient} alt="" className="science"></img>
-                <span className="class-name">{item.className}</span>
-                <br></br>
-                <span className="course-name">Khóa học về răng hàm mặt</span>
-                <hr className="gach-chan-class-3"></hr>
-                <div className="tinh-trang">Đang diễn ra</div>
-                <div className="time-begin">18/10/2023-25/04/2024</div>
-                <div className="time-process">18 tháng</div>
-                <div className="time-schedule">Thứ 5(18:30-19h30) Thứ 7(12:00 - 14:30)</div>
-                </div>
-            </Link>
-                )
+                if(item.isDeleted === false && item.statusClassId === 2){
+                    return(
+                    <Link to='/registerClassDetail' key={`class-${index}`} onClick={() => localStorage.setItem('classId',item.id)}>
+                    <div className="layer-class">
+                    <img src={imgScient} alt="" className="science"></img>
+                    <span className="class-name">{item.className}</span>
+                    <br></br>
+                    <span className="course-name">Khóa học về răng hàm mặt</span>
+                    <hr className="gach-chan-class-3"></hr>
+                    <div className="tinh-trang">Đang diễn ra</div>
+                    <div className="time-begin">18/10/2023-25/04/2024</div>
+                    <div className="time-process">18 tháng</div>
+                    <div className="time-schedule">Thứ 5(18:30-19h30) Thứ 7(12:00 - 14:30)</div>
+                    </div>
+                </Link>
+                    )
+                }
+
             })
             }
 

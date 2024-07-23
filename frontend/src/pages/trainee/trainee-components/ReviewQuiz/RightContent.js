@@ -1,5 +1,4 @@
-import { getQuizById } from "../../services/UserServices";
-import CountDown from "./CountDown";
+import { getQuizById } from '../../../../services/UserServices';
 import { useEffect, useRef } from "react";
 
 const RightContent = (props) => {

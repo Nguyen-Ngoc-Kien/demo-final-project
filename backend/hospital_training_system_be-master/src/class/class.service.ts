@@ -33,13 +33,13 @@ export class ClassService implements OnModuleInit {
       if (page <= 0)
         throw new HttpException('Invalid input', HttpStatus.BAD_REQUEST);
 
-      const statusClass = await this.prisma.statusClass.findMany({
+      const statusClass = await this.prisma.statusClass.findFirst({
         where: {
           statusClass: status,
         },
       });
 
-      const statusClassId = statusClass[0].id;
+      const statusClassId = statusClass.id;
 
       let allClasses: Class[];
 
@@ -102,7 +102,6 @@ export class ClassService implements OnModuleInit {
           isDeleted: false,
         },
       });
-      console.log(classUsers);
 
       const classes: Class[] = [];
 
@@ -184,6 +183,7 @@ export class ClassService implements OnModuleInit {
 
       return newClass;
     } catch (error) {
+      console.log(error);
       throw new HttpException(
         'Lỗi khi tạo lớp học',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -563,12 +563,14 @@ export class ClassService implements OnModuleInit {
       },
     });
 
-    await this.prisma.register.create({
+    const register = await this.prisma.register.create({
       data: {
         classUserId: classUser.id,
         isApproved: false,
       },
     });
+
+    return register;
   }
 
   async approveRegisterById(registerId: number) {
@@ -594,12 +596,22 @@ export class ClassService implements OnModuleInit {
   }
 
   async rejectRegisterById(registerId: number) {
-    await this.prisma.register.update({
+    const register = await this.prisma.register.update({
       where: {
         id: registerId,
       },
       data: {
         isApproved: false,
+        isDeleted: true,
+      },
+    });
+
+    await this.prisma.classUser.update({
+      where: {
+        id: register.classUserId,
+      },
+      data: {
+        isDeleted: true,
       },
     });
 
@@ -644,5 +656,67 @@ export class ClassService implements OnModuleInit {
     } catch (error) {
       throw error;
     }
+  }
+
+  async getTopicGradesOfClass(classId: number, topicId: number) {
+    const foundClassUsers = await this.prisma.classUser.findMany({
+      where: {
+        classId: classId,
+        isTrainer: false,
+      },
+      select: { userId: true, finalGrade: true },
+    });
+
+    const topicGradeOfTrainees = [];
+
+    for (const classUser of foundClassUsers) {
+      const traineeTopicGrade = await this.prisma.topicGrade.findFirst({
+        where: {
+          userId: classUser.userId,
+          topicId: topicId,
+          isDeleted: false,
+        },
+        select: { grade: true, quizGrade: true, assignmentGrade: true },
+      });
+
+      const trainee = await this.prisma.user.findUnique({
+        where: {
+          id: classUser.userId,
+        },
+        select: { firstName: true, lastName: true, email: true },
+      });
+
+      const traineeDetailTopicGrade = { ...trainee, traineeTopicGrade };
+
+      topicGradeOfTrainees.push(traineeDetailTopicGrade);
+    }
+
+    return topicGradeOfTrainees;
+  }
+
+  async getGradesOfClass(classId: number) {
+    const foundClassUsers = await this.prisma.classUser.findMany({
+      where: {
+        classId: classId,
+        isTrainer: false,
+        isDeleted: false,
+      },
+      select: { userId: true, finalGrade: true },
+    });
+
+    const gradeOfTrainee = [];
+    for (const classUser of foundClassUsers) {
+      const trainee = await this.prisma.user.findUnique({
+        where: {
+          id: classUser.userId,
+        },
+        select: { email: true, firstName: true, lastName: true },
+      });
+
+      const traineeOfClass = { ...trainee, classUser };
+      gradeOfTrainee.push(traineeOfClass);
+    }
+
+    return gradeOfTrainee;
   }
 }

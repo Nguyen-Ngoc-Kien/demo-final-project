@@ -17,6 +17,10 @@ const ModalAddnew = (props) => {
     }
 
     const handleSaveUser = async () => {
+        if (!Form.departmentName) {
+            toast.error("Vui lòng điền tên khoa!");
+            return;
+        }
         console.log("Form >>>",Form)
         let res = await PostCreateDepartment(Form,localStorage.getItem("access_token"));
         console.log("check res ==> ", res)
@@ -34,13 +38,13 @@ const ModalAddnew = (props) => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new user</Modal.Title>
+                <Modal.Title>Thêm mới khoa</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Tên khoa*</label>
                         <input
                             name='departmentName'
                             type="text"
@@ -49,7 +53,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input
                             name='description'
                             type="text"
@@ -62,10 +66,10 @@ const ModalAddnew = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleSaveUser()}>
-                    Save Changes
+                    Lưu
                 </Button>
                 </Modal.Footer>
             </Modal>

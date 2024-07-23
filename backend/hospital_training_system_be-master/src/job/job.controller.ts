@@ -24,7 +24,7 @@ export class JobController {
   constructor(private jobService: JobService) {}
 
   //Get All Jobs
-  @Roles('UPPER' , 'ADMIN')
+  @Roles('UPPER', 'ADMIN')
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @Get('')

@@ -62,13 +62,13 @@ const ModalAddnew = (props) => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new Course</Modal.Title>
+                <Modal.Title>Thêm khóa học</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>courseName</label>
+                        <label>Tên khóa học</label>
                         <input
                             name='courseName'
                             type="text"
@@ -77,7 +77,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>department</label>
+                        <label>Khoa</label>
                         <Select
                         options={listDepartment}
                         onChange={(event) => setDepartmentId(event.value)}
@@ -93,7 +93,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>description</label>
+                        <label>Mô tả</label>
                         <input 
                             name='description'
                             type="text" 
@@ -102,7 +102,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>                        
                     <div class="form-group">
-                        <label>totalSession</label>
+                        <label>Tổng số buổi học</label>
                         <input 
                             name='totalSession'
                             type="text" 
@@ -115,10 +115,10 @@ const ModalAddnew = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" onClick={() => handleSaveCourse()}>
-                    Save Changes
+                    Lưu
                 </Button>
                 </Modal.Footer>
             </Modal>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import { fetchAllDepartment, fetchAllCourse, fetchAllUser, fetchAllCurriculum, PostCreateClass } from '../../../services/UserServices';
 import Select from 'react-select';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { fetchAllDepartment, fetchAllCourse, fetchAllUser, fetchAllCurriculum, PostCreateClass } from '../../../services/UserServices';
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddClass = () => {
+    const navigate = useNavigate();
     const listDay = [
         { value: 'Thứ 2', label: 'Thứ 2' },
         { value: 'Thứ 3', label: 'Thứ 3' },
@@ -13,307 +15,345 @@ const AddClass = () => {
         { value: 'Thứ 6', label: 'Thứ 6' },
         { value: 'Thứ 7', label: 'Thứ 7' },
         { value: 'Chủ nhật', label: 'Chủ nhật' },
-      ];
-    const [listDepartment,setListDepartment] = useState([]);
-    const [listCourse,setListCourse] = useState([]);
-    const [listTrainer,setListTrainer] = useState([]);
-    const [listTrainee,setListTrainee] = useState([]);
-    const [listCurriculum,setListcurriculum] = useState([]);
-    const [departmentId,setDepartmentId] = useState(null);
-    const [courseId,setCourseId] = useState(null);
-    const [trainer,setTrainer] = useState(null);
-    const [trainee,setTrainee] = useState([]);
-    const [curriculum,setCurriculum] = useState(null);
-    const [className,setClassName] = useState('');
-    const [startDate,setStartDate] = useState(null);
-    const [endDate,setEndDate] = useState(null);
-    const [startTime,setStartTime] = useState(null);
-    const [endTime,setEndTime] = useState(null);
-    const [minQuantity,setMinQuantity] = useState(null);
-    const [maxQuantity,setMaxQuantity] = useState(null);
-    const [allowRegister,setAllowRegister] = useState(true);
-    const [schedules,setSchedules] = useState([]);
-    const [schedule,setSchedule] = useState([]);
-    const getAllDepartment = async (page) => {
-        const res = await fetchAllDepartment(page,localStorage.getItem("access_token"))
-        // console.log("check res >>>",res)
-        if(res && res.length > 0){
-            let newDepartment = res.map(item => {
-                // console.log("item >>>",item)
-                return{
-                    value: item.id,
-                    label: item.name
-                }
-            })
-            setListDepartment(newDepartment)
-        }
-        // console.log("listDepartment",listDepartment)
-    }
-    const getAllCourse = async (page) => {
-        const res = await fetchAllCourse(page,localStorage.getItem("access_token"))
-        // console.log("check res1 >>>",res)
-        if(res && res.length > 0){
-            let newCourse = res.map(item => {
-                // console.log("item >>>",item)
-                return{
-                    value: item.id,
-                    label: item.courseName
-                }
-            })
-            setListCourse(newCourse)
-        }
-        // console.log("listDepartment",listDepartment)
-    }
-    const getTrainer = async (page) => {
-        const res = await fetchAllUser(page,localStorage.getItem("access_token"))
-        // console.log("check res1 >>>",res)
-        if(res && res.length > 0){
-            let newUser = res
-            .filter(item => item.role === 'TRAINER' && item.isDeleted === false)
-            .map(item => ({
-                value: item.id,
-                label: item.firstName
-            }))
-            setListTrainer(newUser)
-        }
-        // console.log("setListTrainer",setListTrainer)
-    }
-    const getTrainee = async (page) => {
-        const res = await fetchAllUser(page,localStorage.getItem("access_token"))
-        // console.log("check res1 >>>",res)
-        if(res && res.length > 0){
-            let newUser = res
-            .filter(item => item.role === 'TRAINEE' && item.isDeleted === false)
-            .map(item => ({
-                value: item.id,
-                label: item.firstName
-            }))
-            setListTrainee(newUser)
-        }
-        // console.log("setListTrainer",setListTrainer)
-    }
-    const getAllCurriculum = async (page) => {
-        const res = await fetchAllCurriculum(page,localStorage.getItem("access_token"))
-        // console.log("check res1 >>>",res)
-        if(res && res.length > 0){
-            let newCurriculum = res.map(item => {
-                // console.log("item >>>",item)
-                return{
-                    value: item.id,
-                    label: item.curriculumName
-                }
-            })
-            setListcurriculum(newCurriculum)
-        }
-        // console.log("listDepartment",listDepartment)
-    }
+    ];
+
+    const [listDepartment, setListDepartment] = useState([]);
+    const [listCourse, setListCourse] = useState([]);
+    const [listTrainer, setListTrainer] = useState([]);
+    const [listTrainee, setListTrainee] = useState([]);
+    const [listCurriculum, setListCurriculum] = useState([]);
+
+    const [departmentId, setDepartmentId] = useState(null);
+    const [courseId, setCourseId] = useState(null);
+    const [trainer, setTrainer] = useState(null);
+    const [trainees, setTrainees] = useState([{ id: uuidv4(), traineeId: null }]); // Thêm một Select mặc định
+    const [curriculum, setCurriculum] = useState(null);
+    const [className, setClassName] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
+    const [minQuantity, setMinQuantity] = useState(null);
+    const [maxQuantity, setMaxQuantity] = useState(null);
+    const [allowRegister, setAllowRegister] = useState(true);
+    const [schedules, setSchedules] = useState([]);
+
     useEffect(() => {
-        getAllDepartment()
-        getAllCourse()
-        getTrainer()
-        getAllCurriculum()
-        getTrainee()
-    },[])
-    const changeTitle = (event) => {
-        console.log(event.target.value)
-    }
+        getAllDepartment();
+        getAllCourse();
+        getTrainer();
+        getAllCurriculum();
+        getTrainee();
+    }, []);
+
+    const getAllDepartment = async () => {
+        const res = await fetchAllDepartment(1,localStorage.getItem("access_token"));
+        if (res && res.length > 0) {
+            const newDepartment = res.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setListDepartment(newDepartment);
+        }
+    };
+
+    const getAllCourse = async () => {
+        const res = await fetchAllCourse(1,localStorage.getItem("access_token"));
+        if (res && res.length > 0) {
+            const newCourse = res.map(item => ({
+                value: item.id,
+                label: item.courseName
+            }));
+            setListCourse(newCourse);
+        }
+    };
+
+    const getTrainer = async () => {
+        const res = await fetchAllUser(1,localStorage.getItem("access_token"));
+        if (res && res.length > 0) {
+            const newTrainer = res
+                .filter(item => item.role === 'TRAINER' && !item.isDeleted)
+                .map(item => ({
+                    value: item.id,
+                    label: item.firstName + " " + item.lastName
+                }));
+            setListTrainer(newTrainer);
+        }
+    };
+
+    const getTrainee = async () => {
+        const res = await fetchAllUser(1,localStorage.getItem("access_token"));
+        if (res && res.length > 0) {
+            const newTrainee = res
+                .filter(item => item.role === 'TRAINEE' && !item.isDeleted)
+                .map(item => ({
+                    value: item.id,
+                    label: item.firstName + " " + item.lastName
+                }));
+            setListTrainee(newTrainee);
+        }
+    };
+
+    const getAllCurriculum = async () => {
+        const res = await fetchAllCurriculum(1,localStorage.getItem("access_token"));
+        if (res && res.length > 0) {
+            const newCurriculum = res.map(item => ({
+                value: item.id,
+                label: item.curriculumName
+            }));
+            setListCurriculum(newCurriculum);
+        }
+    };
+
+    const handleAddTraineeSelect = () => {
+        const newTrainees = [...trainees, { id: uuidv4(), traineeId: null }];
+        setTrainees(newTrainees);
+    };
+
+    const handleRemoveTraineeSelect = (id) => {
+        const updatedTrainees = trainees.filter(item => item.id !== id);
+        setTrainees(updatedTrainees);
+    };
+
     const handleSubmit = async () => {
-        console.log("m>>>",minQuantity)
-        const Form = {
-            "courseId": courseId,
-            "curriculumId": curriculum,
-            "className": className,
-            "trainerId": trainer,
-            "startDate": startDate,
-            "endDate": endDate,
-            "minQuantity": minQuantity,
-            "maxQuantity": maxQuantity,
-            "allowedRegister": allowRegister,
-            "schedules": [
+        if (!courseId || !curriculum || !className || !trainer || !startDate || !endDate || !minQuantity || !maxQuantity || !allowRegister || trainees.some(trainee => !trainee.traineeId)) {
+            toast.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+            return;
+        }
+    
+        let formData = {
+            courseId,
+            curriculumId: curriculum,
+            className,
+            trainerId: trainer,
+            startDate,
+            endDate,
+            minQuantity,
+            maxQuantity,
+            allowedRegister: allowRegister,
+            schedules: [
                 {
                     "schedule" : "Monday",
                     "startTime" : "T14:48:00",
                     "endTime" : "T14:43:00"
                 }
-            ],
-            "trainees": [
-                {
-                    "traineeId" : 5
-                }
-            ]
+            ], // Đảm bảo rằng schedules luôn là một mảng
+            trainees: trainees.map(trainee => ({
+                traineeId: trainee.traineeId
+            }))
+        };
+    
+        if (Array.isArray(schedules) && schedules.length > 0) {
+            formData.schedules = schedules.map(schedule => ({
+                schedule,
+                startTime,
+                endTime
+            }));
         }
-        const res = await PostCreateClass(Form,localStorage.getItem("access_token"))
-        console.log("res >>>",res)
-        if(res){
-            toast.success("Create Success")
+        console.log("Form >>>",formData)
+        const res = await PostCreateClass(formData, localStorage.getItem("access_token"));
+        console.log("check res >>>",res)
+        if (res && res.status !== 400 && res.status !== 401 && res.status !== 404) {
+            toast.success("Tạo lớp học thành công");
+            // navigate("/Grade");
+        } else {
+            toast.error("Đã xảy ra lỗi, vui lòng thử lại sau");
         }
-        else{
-            toast.error("ERROR")
-        }
-    }
+    };
+
     return (
         <div className='body'>
-        <div className='background'>
-          <div className='content'>
-          <div className='form-content'>
-            <div className='addClass'>
-                <div className='layer-input form-group'>
-                    <div class="form-group">
-                        <label>Khoa</label>
-                        <Select
-                        options={listCourse}
-                        onChange={(event) => setCourseId(event.value)}
-                        />
-                    </div> 
-                </div>   
-                <div className="layer-input form-group">
-                <div class="form-group">
-                        <label>Khóa học</label>
-                        <Select
-                        options={listDepartment}
-                        onChange={(event) => setDepartmentId(event.value)}
-                        />
-                    </div>  
-                </div>             
-                <div className="layer-input form-group">
-                    <div class="form-group">
-                        <label>Tên lớp</label>
-                        <input
-                            name='className'
-                            type="text"
-                            className="form-control"
-                            onChange={(event) => setClassName(event.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="layer-input form-group">
-                <div class="form-group">
-                        <label>Người hướng dẫn</label>
-                        <Select
-                        options={listTrainer}
-                        onChange={(event) => setTrainer(event.value)}
-                        />
-                    </div>  
-                </div>
-                <div className="layer-input form-group-1">
-                <div class="form-group">
-                        <label>Khung chương trình</label>
-                        <Select
-                        options={listCurriculum}
-                        onChange={(event) => setCurriculum(event.value)}
-                        />
-                    </div> 
-                </div>
-                <div className='layer-input-f'>
-                    <br/>
-                    <div class="form-group ml-8">
-                        <label>Ngày bắt đầu</label>
-                        <input 
-                            name='timeStart'
-                            type="date" 
-                            className="form-control w-80"
-                            onChange={(event) => setStartDate(event.target.value)}
-                        />
-                    </div>
-                    <div class="form-group ml-8">
-                        <label>Ngày kết thúc</label>
-                        <input 
-                            name='timeEnd'
-                            type="date" 
-                            className="form-control w-80"
-                            onChange={(event) => setEndDate(event.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="layer-input w-100">
-                <div className="form-floating mb-3 three-layer">
-                    <div className='time'>
-                    <label >Số lượng học viên tối thiểu</label>
-                    <input 
-                    type="number" 
-                    min = {0}
-                    className="form-control" 
-                    onChange={(event) => setMinQuantity(event.target.value)}
-                    />
-                    </div>
-                    <div className='time'>
-                    <label >Số lượng học viên tối đa</label>
-                    <input 
-                    type="number" 
-                    min = {0}
-                    className="form-control" 
-                    onChange={(event) => setMaxQuantity(event.target.value)}
-                    />
-                    </div>
-                    <div className='display-flex'>
-                        <button className='btn btn-primary'>Thêm học viên bằng excel</button>
-                        <p className='text-side'>số lượng học viên 0/15</p>
-                    </div>
-                </div>
-                </div>
-                <div className="layer-input form-group-2">
-                <label>Cho phép đăng ký</label>
-                <input  
-                        className="form-check" 
-                        type="checkbox"
-                        checked={allowRegister}
-                        onChange={() => setAllowRegister(!allowRegister)}
-                /> 
-                </div>
+            <div className='background'>
+                <div className='content'>
+                    <div className='form-content'>
+                        <div className='addClass'>
+                            <div className='layer-input form-group'>
+                                <label>Khoa*</label>
+                                <Select
+                                    options={listDepartment}
+                                    onChange={(event) => setDepartmentId(event.value)}
+                                />
+                            </div>
+                            <div className='layer-input form-group'>
+                                <label>Khóa học*</label>
+                                <Select
+                                    options={listCourse}
+                                    onChange={(event) => setCourseId(event.value)}
+                                />
+                            </div>
+                            <div className='layer-input form-group'>
+                                <label>Tên lớp*</label>
+                                <input
+                                    name='className'
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) => setClassName(event.target.value)}
+                                />
+                            </div>
+                            <div className='layer-input form-group'>
+                                <label>Người hướng dẫn*</label>
+                                <Select
+                                    options={listTrainer}
+                                    onChange={(event) => setTrainer(event.value)}
+                                />
+                            </div>
+                            <div className='layer-input form-group'>
+                                <label>Khung chương trình*</label>
+                                <Select
+                                    options={listCurriculum}
+                                    onChange={(event) => setCurriculum(event.value)}
+                                />
+                            </div>
+                            <div className='layer-input-f'>
+                                <br />
+                                <div className='form-group ml-8'>
+                                    <label>Ngày bắt đầu*</label>
+                                    <input
+                                        name='timeStart'
+                                        type="date"
+                                        className="form-control w-80"
+                                        onChange={(event) => setStartDate(event.target.value)}
+                                    />
+                                </div>
+                                <div className='form-group ml-8 ml-5'>
+                                    <label>Ngày kết thúc*</label>
+                                    <input
+                                        name='timeEnd'
+                                        type="date"
+                                        className="form-control w-80"
+                                        onChange={(event) => setEndDate(event.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className='layer-input w-100'>
+                                <div className='form-floating mb-3 three-layer'>
+                                    <div className='time'>
+                                        <label >Số lượng học viên tối thiểu*</label>
+                                        <input
+                                            type="number"
+                                            min={0}
+                                            className="form-control"
+                                            onChange={(event) => setMinQuantity(event.target.value)}
+                                        />
+                                    </div>
+                                    <div className='time'>
+                                        <label >Số lượng học viên tối đa*</label>
+                                        <input
+                                            type="number"
+                                            min={0}
+                                            className="form-control"
+                                            onChange={(event) => setMaxQuantity(event.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='layer-input form-group-2'>
+                                <label>Cho phép đăng ký*</label>
+                                <input
+                                    className="form-check"
+                                    type="checkbox"
+                                    checked={allowRegister}
+                                    onChange={() => setAllowRegister(!allowRegister)}
+                                />
+                            </div>
 
-                <br></br>
-                <div className="layer-input form-group">
-                    <label>Học viên</label>
-                        <Select
-                        options={listTrainee}
-                        onChange={(event) => setTrainee(event.value)}
-                        />
-                    </div>
-                <div className='layer-input layer-input-flex'>
-                    <br/>
-                    <div className='time1'>
-                        <div class="form-group">
-                            <label>Giờ bắt đầu</label>
-                            <input 
-                                name='timeEnd'
-                                type="time" 
-                                className="form-control"
-                                onChange={(event) => setStartTime(event.target.value)}
-                            />
+                            <br />
+                            <div className='trainee-components flex-box'>
+                                {trainees.length === 0 ? (
+                                    <div className="layer-input form-group col-9">
+                                        <label>Học viên*</label>
+                                        <Select
+                                            options={listTrainee}
+                                            onChange={(event) => {
+                                                const updatedTrainees = [...trainees];
+                                                updatedTrainees[0].traineeId = event.value;
+                                                setTrainees(updatedTrainees);
+                                            }}
+                                        />
+                                        <div className='col-3'>
+                                            <i className="fas fa-plus-square red" onClick={handleAddTraineeSelect}></i>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    trainees.map((trainee, index) => (
+                                        <div key={trainee.id} className="layer-input form-group col-9">
+                                            <label>Học viên*</label>
+                                            <Select
+                                                options={listTrainee}
+                                                onChange={(event) => {
+                                                    const updatedTrainees = [...trainees];
+                                                    updatedTrainees[index].traineeId = event.value;
+                                                    setTrainees(updatedTrainees);
+                                                }}
+                                            />
+                                            {index === 0 ? (
+                                                <div className='col-3'>
+                                                    <i className="fas fa-plus-square red" onClick={handleAddTraineeSelect}></i>
+                                                </div>
+                                            ) : (
+                                                <div className='col-3'>
+                                                    <i className="fas fa-plus-square red" onClick={handleAddTraineeSelect}></i>
+                                                    <i className="fas fa-minus-square green" onClick={() => handleRemoveTraineeSelect(trainee.id)}></i>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+
+                            <div className='layer-input layer-input-flex'>
+                                <br />
+                                <div className='time1'>
+                                    <div className="form-group">
+                                        <label>Giờ bắt đầu*</label>
+                                        <input
+                                            name='timeEnd'
+                                            type="time"
+                                            className="form-control"
+                                            onChange={(event) => setStartTime(event.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='time1 ml-3'>
+                                    <div className="form-group">
+                                        <label>Giờ kết thúc*</label>
+                                        <input
+                                            name='timeEnd'
+                                            type="time"
+                                            className="form-control"
+                                            onChange={(event) => setEndTime(event.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='time1 ml-3'>
+                                    <div className="form-group">
+                                        <label>Thứ*</label>
+                                        <Select
+                                            options={listDay}
+                                            onChange={(event) => setSchedules(event.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button className='btn btn-primary ml-4' onClick={handleSubmit}>Tạo</button>
+                            </div>
                         </div>
                     </div>
-                    <div className='time1'>
-                        <div class="form-group">
-                            <label>Giờ kết thúc</label>
-                            <input 
-                                name='timeEnd'
-                                type="time" 
-                                className="form-control"
-                            onChange={(event) => setEndTime(event.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className='time1'>
-                        <div class="form-group">
-                            <label>Thứ</label>
-                            <Select
-                            options={listDay}
-                            onChange={(event) => setSchedule(event.value)}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className='icon-add'>
-                    <i class="fas fa-plus-circle add"></i>
-                </div>
-                <div>
-                    <button className='btn btn-primary ml-4' onClick={() => handleSubmit()}>Tạo</button> 
                 </div>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
-          </div>
-        </div>
-      </div>
     );
 };
 

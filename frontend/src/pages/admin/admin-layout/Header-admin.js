@@ -3,9 +3,15 @@ import {Link} from 'react-router-dom';
 
 function HandleMenu(){
   const [on,setOn] = useState(false)
+  const [onA,setOnA] = useState(false)
   const HandleClick = () => {
     setOn(() => {
       return !on;
+    })
+  }
+  const HandleClickAvatar = () => {
+    setOnA(() => {
+      return !onA;
     })
   }
   const HandleClickSignout = () => {
@@ -19,10 +25,7 @@ function HandleMenu(){
             <div className='menu' onClick={() => HandleClick()}>
                 <i class="fas fa-bars"></i>
             </div>
-            <div className='notification'>
-                <i class="fas fa-bell"></i>
-            </div>
-            <div className='user'>
+            <div className='user' onClick={() => HandleClickAvatar()}>
                 <div className='avatar'>
                 <i class="fas fa-user"></i>
                 </div>
@@ -37,9 +40,7 @@ function HandleMenu(){
         <nav className={`side-bar ${on ? '' : 'hidden-sidebar'}`}>
           <ul>
             <div className='logo'>
-              <img 
-              src='https://upload.wikimedia.org/wikipedia/vi/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg' 
-              alt='' className='logo-img'/>
+              <span className='name-hopital text-polycell'>Polycell</span>
             </div>
             <div className='object-sidebar'>
               <span className='home-icon'>
@@ -89,38 +90,6 @@ function HandleMenu(){
               <Link to="/StatusClass" className='text-menu' onClick={() => HandleClick()}>Trạng Thái Lớp Học</Link>
             </li>
             </div> 
-            <div className='object-sidebar'>
-              <span className='home-icon'>
-                <i class="fas fa-certificate"></i>
-              </span>
-              <li>
-              <Link to="/Certification" className='text-menu' onClick={() => HandleClick()}>Chứng chỉ</Link>
-            </li>
-            </div>
-            <div className='object-sidebar'>
-              <span className='home-icon'>
-                <i class="fas fa-map-marker-alt"></i>
-              </span>
-              <li>
-              <Link to="/Location" className='text-menu' onClick={() => HandleClick()}>Địa điểm tổ chức</Link>
-            </li>
-            </div>
-            <div className='object-sidebar'>
-              <span className='home-icon'>
-                <i class="fas fa-wrench"></i>
-              </span>
-              <li>
-              <Link to="/Configuration" className='text-menu' onClick={() => HandleClick()}>Cấu hình</Link>
-            </li>
-            </div>
-            <div className='object-sidebar'>
-              <span className='home-icon'>
-                <i class="fas fa-cog"></i>
-              </span>
-              <li>
-              <Link to="/Emulator" className='text-menu' onClick={() => HandleClick()}>Giả lập</Link>
-            </li>
-            </div>
             <div className='object-sidebar'>
               <span className='home-icon'>
                 <i class="fas fa-sign-out-alt"></i>

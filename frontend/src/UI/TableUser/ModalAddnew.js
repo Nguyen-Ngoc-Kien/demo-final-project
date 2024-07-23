@@ -77,6 +77,10 @@ const ModalAddnew = (props) => {
 
 
     const handleSaveUser = async () => {
+        if (!firstName || !lastName || !email || !phone || !password || !role || !jobId || !gender || !dob || !departmentId) {
+            toast.error("Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
         let res = await PostCreateUser({
             "firstName": firstName,
             "lastName": lastName,
@@ -108,13 +112,13 @@ const ModalAddnew = (props) => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add new user</Modal.Title>
+                <Modal.Title>Thêm người dùng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <div>
                 <form>
                     <div class="form-group">
-                        <label>First Name</label>
+                        <label>Họ và tên đệm*</label>
                         <input
                             name='firstName'
                             type="text"
@@ -123,7 +127,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Last Name</label>
+                        <label>Tên*</label>
                         <input
                             name='lastName'
                             type="text"
@@ -132,7 +136,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email*</label>
                         <input 
                             name='email'
                             type="text" 
@@ -141,14 +145,14 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Department</label>
+                        <label>Khoa*</label>
                         <Select
                         options={listDepartment}
                         onChange={(event) => setDepartmentId(event.value)}
                         />
                     </div>                        
                     <div class="form-group">
-                        <label>Phone</label>
+                        <label>Số điện thoại*</label>
                         <input 
                             name='phone'
                             type="text" 
@@ -157,7 +161,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Mật khẩu*</label>
                         <input 
                             name='password'
                             type="text" 
@@ -166,28 +170,28 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Role</label>
+                        <label>Vai trò*</label>
                         <Select
                         options={listRole}
                         onChange={(event) => setRole(event.value)}
                         />
                     </div>
                     <div class="form-group">
-                        <label>Job</label>
+                        <label>Công việc*</label>
                         <Select
                         options={listJob}
                         onChange={(event) => setJobId(event.value)}
                         />
                     </div>
                     <div class="form-group">
-                        <label>Gender</label>
+                        <label>Giới tính*</label>
                         <Select
                         options={listGender}
                         onChange={(event) => setGender(event.value)}
                         />
                     </div>
                     <div class="form-group">
-                        <label>Image</label>
+                        <label>Ảnh đại diện</label>
                         <input 
                             name='image'
                             type="text" 
@@ -196,7 +200,7 @@ const ModalAddnew = (props) => {
                         />
                     </div>
                     <div class="form-group">
-                        <label>Date Of Birth</label>
+                        <label>Ngày sinh*</label>
                         <input 
                             name='dob'
                             type="date" 

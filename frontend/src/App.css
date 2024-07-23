@@ -89,8 +89,9 @@ img.logo-img {
   height: 91px;
 }
 .logo {
-  padding-top: 20px;
+  padding-top: 24px;
   padding-left: 27px;
+  margin-bottom: 15px;
 }
 li {
   padding-left: 19px;
@@ -903,14 +904,14 @@ i.fas.fa-search.grade-upper {
 }
 
 .content-class-detail {
-    border: 1px solid lightblue;
-    width: 1379px;
-    margin-left: 28px;
-    margin-top: 17px;
-    border-radius: 10px;
-    padding-left: 35px;
-    padding-top: 24px;
-    height: 770px;
+  border: 1px solid lightblue;
+  width: 1379px;
+  margin-left: 28px;
+  margin-top: 17px;
+  border-radius: 10px;
+  padding-left: 35px;
+  padding-top: 24px;
+  height: 563px;
 }
 
 span.title-class-detail {
@@ -1151,7 +1152,8 @@ i.fas.fa-arrow-left.arrow-back-class-list {
 }
 
 .go-back-list-class {
-  margin-left: 31px;
+  margin-left: 30px;
+  width: 130px;
 }
 
 span.back-list-class {
@@ -1160,12 +1162,12 @@ span.back-list-class {
 }
 
 .btn-duyet-list-class {
-  margin-left: 1153px;
+  margin-left: 1032px;
   cursor: pointer;
   background: green;
-  width: 92px;
+  width: 83px;
   box-shadow: 1px 1px 1px black;
-  padding-left: 13px;
+  padding-left: 12px;
   padding-top: 5px;
   color: white;
   height: 33px;
@@ -1606,13 +1608,9 @@ span.name-add-active-1 {
 }
 
 .view-course-detail-1{
-  margin-left: 39px;
+  margin-left: 25px;
   width: 1181px;
-  cursor: pointer;
-
-  &:hover{
-    background: #c4d7dd;
-  }
+  font-weight: bold;
 }
 
 .add-assign-detail-icon-2 {
@@ -2036,7 +2034,7 @@ label.form-check-label-answer {
 }
 
 .time {
-  width: 32%;
+  width: 46%;
 }
 
 .question-container{
@@ -2202,11 +2200,11 @@ span.quay-lai {
 }
 
 .status-quiz {
-  margin-right: 84px;
+  margin-right: 37px;
   border: 1px solid;
   border-radius: 24px;
   padding: 5px;
-  margin-top: 10px;
+  margin-top: 12px;
   background: #4cf04c;
   color: white;
   font-size: 15px;
@@ -2287,11 +2285,11 @@ td.level-w {
 }
 
 input.form-control.w-80 {
-  width: 132%;
+  width: 181%;
 }
 
 .form-group.ml-8 {
-  margin-left: 97px;
+  margin-left: 31px;
 }
 
 .layer-input.layer-input-flex {
@@ -2300,7 +2298,7 @@ input.form-control.w-80 {
 }
 
 .time1 {
-  width: 25%;
+  width: 30%;
 }
 
 .display-flex {
@@ -2322,7 +2320,7 @@ i.far.fa-check-circle.check {
 .status-save {
   margin-top: 8px;
   background: #71ba71;
-  width: 75%;
+  width: 70%;
   padding-left: 19px;
   height: 26px;
   border-radius: 25px;
@@ -2340,3 +2338,85 @@ i.far.fa-check-circle.check {
 .h-68{
   height: 68%!important;
 }
+
+span.text-header {
+  display: inline-block;
+  margin-left: 1358px;
+  margin-top: 7px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 14px;
+  &:hover{
+    color: green;
+  }
+}
+
+i.fas.fa-angle-double-left {
+  margin-right: 9px;
+}
+
+.b-greyy{
+  background-color: #c6ddde!important;
+}
+
+.nop-bai {
+  font-size: 19px;
+  font-weight: bold;
+  margin-left: 39px;
+  margin-top: 12px;
+}
+
+.f-f{
+  width: 1349px;
+  margin-left: 35px;
+  margin-bottom: 23px;
+}
+
+.ml-4\.5.btn.btn-success {
+  margin-left: 34px;
+}
+
+span.text-polycell {
+  background: linear-gradient(to right, #4835a7db 0%, #1d043c54 100%);
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.trainee-components.flex-box {
+  width: 100%;
+}
+
+.l-40{
+  left: 40%!important;
+}
+
+.form-floating.mb-6 {
+  margin-bottom: 3rem !important;
+}
+
+.mb-11{
+  margin-bottom: 11px;
+}
+
+.fs-14 {
+  font-size: 20px;
+}
+
+.h-61 {
+  height: 61% !important;
+}
+
+.trainee-components.flex-box {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.form-group.ml-8.ml-5 {
+  padding-left: 116px;
+}
+

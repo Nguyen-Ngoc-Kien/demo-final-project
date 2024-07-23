@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import { fetchAllTopicCoursebyId, fetchQuizTopicById, fetchAssignmentTopicById } from '../../../services/UserServices';
+import { fetchAllTopicCoursebyId, fetchQuizTopicById, fetchAssignmentTopicById, fetchExternalResourceTopicById } from '../../../services/UserServices';
 import _ from 'lodash';
 import {ToastContainer, toast } from 'react-toastify';
 import ModalConfirm from '../../../UI/TableTopic/ModalConfirm';
 import ModalEditTopic from '../../../UI/TableTopic/ModalEditTopic';
 import ModalConfirmQuiz from '../../../UI/TableQuiz/ModalConfirm'
 import ModalConfirmAssignemt from '../../../UI/TableAssignment/ModalConfirm'
+import ModalConfirmExternalResource from '../../../UI/TableExternalResource/ModalConfirm'
 import ModalEditQuiz from '../../../UI/TableQuiz/ModalEditQuiz';
 
 const ContentGrade = (props) => {
@@ -18,13 +19,17 @@ const ContentGrade = (props) => {
     const [listUser,setListUser] = useState([]);
     const [listQuiz,setListQuiz] = useState([]);
     const [listAssignment,setListAssignment] = useState([]);
+    const [listExternalResource,setListExternalResource] = useState([]);
     const [isShowModalAddNew,setIsShowModalAddNew] = useState(false);
     const [isShowModalAddNewAct,setIsShowModalAddNewAct] = useState(false);
     const [isShowModalDelete,setIsShowModalDelete] = useState(false);
     const [isShowModalDeleted,setIsShowModalDeleted] = useState(false);
+    const [isShowModalDeletedAssignment,setIsShowModalDeletedAssignment] = useState(false);
+    const [isShowModalDeletedExternalResource,setIsShowModalDeletedExternalResource] = useState(false);
     const [dataUserDelete,setDataUserDelete] = useState({});
     const [dataQuizDelete,setDataQuizDelete] = useState({});
     const [dataAssignmentDelete,setDataAssignmentDelete] = useState({});
+    const [dataExternalResourceDelete,setDataExternalResourceDelete] = useState({});
     const [isShowModalEdit,setIsShowModalEdit] = useState(false);
     const [isShowModalEdited,setIsShowModalEdited] = useState(false);
     const [dataUserEdit,setDataUserEdit] = useState({});
@@ -32,6 +37,7 @@ const ContentGrade = (props) => {
     const [idTopic,setIdTopic] = useState({});
     const [quizTopic,setQuizTopic] = useState([])
     const [assignmentTopic,setAssignmentTopic] = useState([])
+    const [externalResource,setExternalResource] = useState([])
     // const [click, setClick] = useState(true)
     // const HandleClick = () => {
     //   console.log("Click")
@@ -43,6 +49,8 @@ const ContentGrade = (props) => {
         setIsShowModalAddNew(false);
         setIsShowModalDelete(false)
         setIsShowModalDeleted(false)
+        setIsShowModalDeletedAssignment(false)
+        setIsShowModalDeletedExternalResource(false)
         setIsShowModalAddNewAct(false)
         setIsShowModalEdit(false)
         setIsShowModalEdited(false)
@@ -81,7 +89,7 @@ const ContentGrade = (props) => {
 
       const handleDeleteAssignment = (event,item) => {
         event.preventDefault();
-        setIsShowModalDeleted(true)
+        setIsShowModalDeletedAssignment(true)
         setDataAssignmentDelete(item)
         console.log("data Assignment delete >>>",dataAssignmentDelete)
     }
@@ -91,6 +99,22 @@ const ContentGrade = (props) => {
         cloneListAssignments = cloneListAssignments.filter(item => item.id !== user.id)
         console.log("clonelistAssignment >>>",cloneListAssignments)
         setListAssignment(cloneListAssignments);
+        handleclosed();
+        toast.success("Update completely!")    
+      }
+
+      const handleDeleteExternalResource = (event,item) => {
+        event.preventDefault();
+        setIsShowModalDeletedExternalResource(true)
+        setDataExternalResourceDelete(item)
+        console.log("data externalresource delete >>>",dataExternalResourceDelete)
+    }
+
+    const handleDeleteExternalResourceFromModal = (user) => {
+        let cloneListExternalResources = _.cloneDeep(listExternalResource);
+        cloneListExternalResources = cloneListExternalResources.filter(item => item.id !== user.id)
+        console.log("cloneListExternalResources >>>",cloneListExternalResources)
+        setListExternalResource(cloneListExternalResources);
         handleclosed();
         toast.success("Update completely!")    
       }
@@ -135,9 +159,12 @@ const ContentGrade = (props) => {
         // console.log("item >>>",item)
         const res = await fetchQuizTopicById(id,localStorage.getItem("access_token"))
         const res1 = await fetchAssignmentTopicById(id,localStorage.getItem("access_token"))
+        const res2 = await fetchExternalResourceTopicById(id,localStorage.getItem("access_token"))
         console.log("res1 >>>",res1)
+        console.log("res2 >>>",res2)
         setQuizTopic(res);
         setAssignmentTopic(res1);
+        setExternalResource(res2);
         // console.log("Quiz topic >>>",quizTopic)
       }
       const handleClickQuiz = (idQuiz,topicId) => {
@@ -146,6 +173,9 @@ const ContentGrade = (props) => {
       }
       const handleClickAssignment = (idAssignment) => {
         localStorage.setItem("idAssignment",idAssignment)
+      }
+      const handleClickExternalResource = (idExternalResource) => {
+        localStorage.setItem("idExternalResource",idExternalResource)
       }
   return (
     <div>
@@ -233,6 +263,32 @@ const ContentGrade = (props) => {
 
                                     })
                                     }
+                                    {externalResource && externalResource.length > 0 && externalResource.map((externalResource, index) => {
+                                        return(
+                                            <Link to="/external-resource-detail" onClick={() => handleClickExternalResource(externalResource.id)} key={`topic-${index}`}>
+                                                    <div className='quiz-border'>
+                                                        <div className='title-content-assignment mt-14'>
+                                                            <div className='icon-background-title'>
+                                                                <i class="fas fa-link"></i>
+                                                            </div>
+                                                            <div className='text-assignment'>
+                                                                <span className='title-span-assignment'>Tài liệu</span>
+                                                                <span className='title-span-assignment-2'>{externalResource.name}</span>
+                                                            </div>
+                                                            <i className={`fas fa-pencil-alt icon-pencil-vcd ${toggle ? 'hide' : 'hien'}`} onClick={(event) => handleEditQuiz(event, externalResource)}></i>
+                                                            <i className={`fas fa-trash-alt ml-100 ${toggle ? 'hide' : 'hien'}`} onClick={(event) => handleDeleteExternalResource(event, externalResource)}></i>
+                                                        </div>
+                                                        <div className='content-assignment w-1109'>
+                                                            <div className='header-title-quiz'>
+                                                                <span className='description-assignment'>{externalResource.name}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                        )
+
+                                    })
+                                    }
                                 <div className={`layer-bot view-course-detail-2 hover-background ${toggle ? 'hide' : 'hien'}`} onClick = {() => setIsShowModalAddNewAct(true)} >
                                     <div className={`view-course-detail-3 flex`} onClick={() => localStorage.setItem("idTopic",item.id)}>
                                         <div className='khung-icon'>
@@ -251,7 +307,7 @@ const ContentGrade = (props) => {
                                 </div>
                                 <hr className='hr-add-active'></hr>
                                 <div className='Body-add-active-content'>
-                                <Link to='add-link-assignment'>
+                                <Link to='/External-Resource'>
                                     <div className='Khung-add-active'>
                                         <div className='Khung-icon-add-active'>
                                             <i class="fas fa-link icon-add-active"></i>
@@ -317,11 +373,18 @@ const ContentGrade = (props) => {
         ></ModalEditQuiz>
 
         <ModalConfirmAssignemt
-            show={isShowModalDeleted}
+            show={isShowModalDeletedAssignment}
             handleClose = {handleclosed}
             dataAssignmentDelete = {dataAssignmentDelete}
             handleDeleteAssignmentFromModal = {handleDeleteAssignmentFromModal}     
         ></ModalConfirmAssignemt>
+
+        <ModalConfirmExternalResource
+            show={isShowModalDeletedExternalResource}
+            handleClose = {handleclosed}
+            dataAssignmentDelete = {dataAssignmentDelete}
+            handleDeleteExternalResourceFromModal = {handleDeleteExternalResourceFromModal}     
+        ></ModalConfirmExternalResource>
 
         <ToastContainer
         position="top-right"

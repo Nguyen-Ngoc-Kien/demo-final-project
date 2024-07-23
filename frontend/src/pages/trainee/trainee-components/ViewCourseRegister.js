@@ -137,7 +137,7 @@ const ListClass = () => {
                         </div>
             </div>
             <div className='end-body-list-class'>
-                <Link to='/Grade' className='go-back-list-class'>
+                <Link to='/Register' className='go-back-list-class'>
                     <i class="fas fa-arrow-left arrow-back-class-list"></i>
                     <span className='back-list-class'>TRỞ VỀ</span>
                 </Link>

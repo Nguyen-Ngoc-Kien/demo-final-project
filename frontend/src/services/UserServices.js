@@ -9,6 +9,14 @@ const fetchAllClass = (page,access_token) => {
     })
 }
 
+const fetchMyClass = (page,access_token) => {
+    return axios.get(`/class/myClass`,{
+        headers:{
+            'Content-Type' : 'application/json',
+            Authorization: 'Bearer ' + access_token
+        }
+    })
+}
 const fetchClassById = (id,access_token) => {
     return axios.get(`class/${id}`,{
         headers:{
@@ -37,7 +45,7 @@ const putUpdateClass = (name,job,access_token) => {
 }
 
 const deleteClass = (id,access_token) => {
-    return axios.delete(`user/deleteUser/${id}`,{
+    return axios.delete(`class/deleteClass/${id}`,{
         headers:{
             'Content-Type' : 'application/json',
             Authorization: 'Bearer ' + access_token
@@ -73,7 +81,7 @@ const patchUpdateUser = (id,access_token,data) => {
 }
 
 const deleteUser = (id,access_token) => {
-    return axios.delete(`user/deleteUser`,{
+    return axios.delete(`user/deleteUser/${id}`,{
         headers:{
             'Content-Type' : 'application/json',
             Authorization: 'Bearer ' + access_token
@@ -87,6 +95,15 @@ const loginApi = (email,password) => {
 
 const fetchUserProfile = (access_token) => {
     return axios.get(`/user/profile`,{
+        headers:{
+            'Content-Type' : 'application/json',
+            Authorization: 'Bearer ' + access_token
+        }
+    })
+}
+
+const fetchUserById = (id,access_token) => {
+    return axios.get(`user/${id}`,{
         headers:{
             'Content-Type' : 'application/json',
             Authorization: 'Bearer ' + access_token
@@ -599,4 +616,86 @@ const postQuestions = (topicId,questionName,levelId,answers,access_token) => {
         })
     }
 
-export {fetchAllClass, fetchClassById, PostCreateClass, putUpdateClass,deleteClass,loginApi,fetchAllUser,patchUpdateUser,deleteUser,PostCreateUser,fetchUserProfile, deleteCourse, patchUpdateCourse, PostCreateCourse ,fetchAllCourse,getQuestionQuizbyId, postSubmitQuiz,postCreateQuiz, postQuestions, getQuizById, fetchAllDepartment, PostCreateDepartment,deleteDepartment, patchUpdateDepartment, fetchAllCurriculum, PostCreateCurriculum, deleteCurriculum, patchUpdateCurriculum, fetchAllTopicCoursebyId, PostCreateTopicCourse, deleteTopicFromId, patchUpdateTopicCourse, fetchQuizTopicById, fetchQuizById,deleteQuiz, patchUpdateQuiz, fetchQuestionById, deleteQuestion, patchUpdateQuestion, fetchQuestionId, fetchQuizTraineeById, shuffleQuizById, fetchAllLevel, deleteLevel, PostCreateLevel, patchUpdateLevel, fetchAllJob, PostCreateJob, deleteJob, patchUpdateJob, fetchStatusById, postCreateAssignment, fetchAssignmentTopicById, deleteAssignment, fetchAssignmentById, fetchAllStatusClass, PostCreateStatusClass, deleteStatusClass, patchUpdateStatusClass, fetchDepartmentById, fetchCourseById, approveClass, rejectClass, registerClass}
+    const postCreateExternalResource = (Form,access_token) => {
+        return axios.post('externalResource/createExternalResource',Form,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const fetchExternalResourceTopicById = (id,access_token) => {
+        return axios.get(`externalResource/topic/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const fetchExternalResourceById = (id,access_token) => {
+        return axios.get(`externalResource/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const submitAssignment = (id,file,access_token) => {
+        return axios.post(`assignment/submitAssignment/${id}`,file,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const deleteExternalResource = (id,access_token) => {
+        return axios.delete(`externalResource/deleteExternalResource/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const fetchGradesAssignment = (id,access_token) => {
+        return axios.get(`assignment/getGradesAssignment/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const patchGradeSubmission = (id,form,access_token) => {
+        return axios.patch(`assignment/gradeSubmission/${id}`,form,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const submissionAssignment = (id,access_token) => {
+        return axios.get(`assignment/submission/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+    const fetchGradesQuiz = (id,access_token) => {
+        return axios.get(`quiz/getGradesQuiz/${id}`,{
+            headers:{
+                'Content-Type' : 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        })
+    }
+
+
+export {fetchAllClass, fetchClassById, PostCreateClass, putUpdateClass,deleteClass,loginApi,fetchAllUser,patchUpdateUser,deleteUser,PostCreateUser,fetchUserProfile, deleteCourse, patchUpdateCourse, PostCreateCourse ,fetchAllCourse,getQuestionQuizbyId, postSubmitQuiz,postCreateQuiz, postQuestions, getQuizById, fetchAllDepartment, PostCreateDepartment,deleteDepartment, patchUpdateDepartment, fetchAllCurriculum, PostCreateCurriculum, deleteCurriculum, patchUpdateCurriculum, fetchAllTopicCoursebyId, PostCreateTopicCourse, deleteTopicFromId, patchUpdateTopicCourse, fetchQuizTopicById, fetchQuizById,deleteQuiz, patchUpdateQuiz, fetchQuestionById, deleteQuestion, patchUpdateQuestion, fetchQuestionId, fetchQuizTraineeById, shuffleQuizById, fetchAllLevel, deleteLevel, PostCreateLevel, patchUpdateLevel, fetchAllJob, PostCreateJob, deleteJob, patchUpdateJob, fetchStatusById, postCreateAssignment, fetchAssignmentTopicById, deleteAssignment, fetchAssignmentById, fetchAllStatusClass, PostCreateStatusClass, deleteStatusClass, patchUpdateStatusClass, fetchDepartmentById, fetchCourseById, approveClass, rejectClass, registerClass, fetchUserById, fetchUserRegister, fetchMyClass, postCreateExternalResource, fetchExternalResourceTopicById, fetchExternalResourceById, submitAssignment, deleteExternalResource, fetchGradesAssignment, patchGradeSubmission, submissionAssignment, fetchGradesQuiz}

@@ -1,14 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Home from './layout/Home'
 import Login from './layout/Login'
-// import ListQuiz from './pages/quizz/ListQuiz';
 function App() {
    return(
-    <Login></Login>
-   //* <div>  */}
-      // {/* <ListQuiz></ListQuiz> */}
-
-   //{/* </div>   */}
+      <div>
+         <Login></Login>
+      </div>
    )
 }
 

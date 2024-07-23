@@ -40,7 +40,7 @@ export class DepartmentController {
   }
 
   //Get Department By Id
-  @Roles('UPPER' , 'TRAINEE')
+  @Roles('UPPER' , 'TRAINER' , 'TRAINEE' , 'ADMIN')
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @Get('/:id')

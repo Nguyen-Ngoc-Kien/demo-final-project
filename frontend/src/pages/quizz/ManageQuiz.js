@@ -1,196 +1,230 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchAllLevel, postCreateQuiz } from '../../services/UserServices';
 import { ToastContainer, toast } from 'react-toastify';
-import TableQuiz from '../../UI/TableQuiz/TableQuiz';
 import { useParams } from 'react-router-dom';
 
-
 const ManageQuiz = (props) => {
-    const [topicId,setTopicId] = useState(localStorage.getItem("idTopic"))
-    const [name,setName] = useState('');
-    const [timeStart,setTimeStart] = useState(null);
-    const [timeEnd,setTimeEnd] = useState(null);
-    const [totalTime,setTotalTime] = useState(null);
-    const [weight,setWeight] = useState(null);
-    const [numberOfEasyQuestion,setNumberOfEasyQuestion] = useState(0);
-    const [levelId,setLevelId] = useState(0);
-    const [numberOfLevelQuestion,setNumberOfLevelQuestion] = useState(0);
-    const [numberOfMediumQuestion,setNumberOfMediumQuestion] = useState(0);
-    const [numberOfHardQuestion,setNumberOfHardQuestion] = useState(0);
-    // const [type,setType] = useState('EASY');
-    let Form = {
-        "topicId": topicId,
-        "quizName": name,
-        "timeLimit": totalTime,
-        "weight": weight,
-        "startAt": timeStart,
-        "endAt": timeEnd,
-        "option": [{
-            "levelId": levelId,
-            "numberOfLevelQuestion": numberOfLevelQuestion,
-        }]
-    }
-    const handleSubmitQuiz =  async() => {
-        if(!topicId || !name || !timeStart || !timeEnd || !totalTime || !weight || !numberOfEasyQuestion || !numberOfMediumQuestion || !numberOfHardQuestion){
-            toast.error("Required Fill On Full Information")
-            return;
+    const [topicId, setTopicId] = useState(localStorage.getItem("idTopic"));
+    const [name, setName] = useState('');
+    const [timeStart, setTimeStart] = useState(null);
+    const [timeEnd, setTimeEnd] = useState(null);
+    const [totalTime, setTotalTime] = useState(null);
+    const [weight, setWeight] = useState(null);
+    const [seeAnswer, setSeeAnswer] = useState(false);
+    const [listLevel, setListLevel] = useState([]);
+    const [option, setOption] = useState([]);
+    const [Form, setForm] = useState({
+        topicId: topicId,
+        quizName: name,
+        timeLimit: totalTime,
+        seeAnswer: seeAnswer,
+        weight: weight,
+        startAt: timeStart,
+        endAt: timeEnd,
+        option: [],
+    });
+
+    // Lấy danh sách các mức độ khó
+    const getLevel = async () => {
+        try {
+            const res = await fetchAllLevel(1, localStorage.getItem("access_token"));
+            setListLevel(res);
+            // Khởi tạo option ban đầu từ danh sách mức độ khó
+            const initialOption = res.map(level => ({
+                levelId: level.id,
+                numberOfLevelQuestion: 0,
+            }));
+            setOption(initialOption);
+        } catch (error) {
+            console.error("Error fetching levels:", error);
+            toast.error("Failed to fetch levels");
         }
-        if(weight < 0 || weight > 1){
-            toast.error("Required Weight from 0.0 to 1.0")
+    };
+
+    // Xử lý khi thay đổi số lượng câu hỏi theo mức độ khó
+    const handleOnChangeNumberLevelQuestion = (event, id) => {
+        const { value } = event.target;
+        const updatedOption = option.map(opt => {
+            if (opt.levelId === id) {
+                return {
+                    ...opt,
+                    numberOfLevelQuestion: parseInt(value, 10),
+                };
+            }
+            return opt;
+        });
+        setOption(updatedOption);
+        setForm({
+            ...Form,
+            option: updatedOption,
+        });
+    };
+
+    // Xử lý khi submit form
+    const handleSubmitQuiz = async () => {
+        if (!topicId || !name || !timeStart || !timeEnd || !totalTime || !weight || option.some(opt => opt.numberOfLevelQuestion <= 0)) {
+            toast.error("Please fill in all required fields and ensure each level has at least one question.");
             return;
         }
 
-        if(numberOfEasyQuestion < 0 || numberOfMediumQuestion < 0 || numberOfHardQuestion < 0){
-            toast.error("required numberquestion > 0")
+        if (weight < 0 || weight > 1) {
+            toast.error("Weight must be between 0.0 and 1.0");
             return;
         }
 
-        console.log("Form >>>",Form)
-        let res = await postCreateQuiz(Form,localStorage.getItem("access_token"))
-        console.log("check res quiz")
-        if(res > 0){
-            toast.success("Create Success")
-            setName('')
-            setTopicId(0)
-            setTimeStart(null)
-            setTimeEnd(null)
-            setTotalTime(0)
-            setWeight(0)
-            setNumberOfEasyQuestion(0)
-            setNumberOfMediumQuestion(0)
-            setNumberOfHardQuestion(0)
+        try {
+            const res = await postCreateQuiz(Form, localStorage.getItem("access_token"));
+            console.log("res quiz >>>",res)
+            if (res) {
+                toast.success("Quiz created successfully");
+                resetForm();
+            } else {
+                toast.error("Failed to create quiz");
+            }
+        } catch (error) {
+            console.error("Error creating quiz:", error);
+            toast.error("Failed to create quiz");
         }
-        console.log("check res >>>",res)
-    }
-    const getLevel = async (page) => {
-        const res = await fetchAllLevel(page,localStorage.getItem("access_token"))
-        console.log("res level >>>",res)
-    }
+    };
+
+    // Reset form sau khi tạo quiz thành công
+    const resetForm = () => {
+        setName('');
+        setTopicId('');
+        setTimeStart(null);
+        setTimeEnd(null);
+        setSeeAnswer(false);
+        setTotalTime(null);
+        setWeight(null);
+        const resetOption = option.map(opt => ({
+            ...opt,
+            numberOfLevelQuestion: 0,
+        }));
+        setOption(resetOption);
+        setForm({
+            topicId: '',
+            quizName: '',
+            timeLimit: null,
+            seeAnswer: false,
+            weight: null,
+            startAt: null,
+            endAt: null,
+            option: [],
+        });
+    };
+
     useEffect(() => {
-        getLevel()
-    },[])
-    return(
+        getLevel();
+    }, []);
+
+    useEffect(() => {
+        // Cập nhật Form khi các trường state thay đổi
+        setForm({
+            topicId: topicId,
+            quizName: name,
+            timeLimit: totalTime,
+            seeAnswer: seeAnswer,
+            weight: weight,
+            startAt: timeStart,
+            endAt: timeEnd,
+            option: option,
+        });
+    }, [topicId, name, timeStart, timeEnd, totalTime, weight, seeAnswer, option]);
+
+    return (
         <div className='container'>
             <div className="quiz-container-manager">
                 <div className="title-quiz-manager">
-                        Manage Quizzes
+                    Quản lý bài trắc nghiệm
                 </div>
-                <hr/>
+                <hr />
                 <div className="add-new">
-
-                <fieldset className="border rounded-3 p-3" >
-                    <legend className="float-none w-auto px-3">Add New Quiz</legend>
-                <div className="form-floating mb-3">
-                    <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Topic ID"
-                    value={localStorage.getItem("idTopic")}           
-                    />
-                    <label>Topic ID</label>
-                </div>
-                <div className="form-floating mb-3">
-                    <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Your Quiz Name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}                  
-                    />
-                    <label>Quiz Name</label>
-                </div>
-                <div className="form-floating mb-3">
-                    <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Weight"
-                    value={weight}
-                    onChange={(event) => setWeight(event.target.value)}    
-                    />
-                    <label >Weight(From 0.0 to 1.0)</label>
-                </div>
-                <div className="form-floating mb-3 three-layer">
-                    <div className='time'>
-                    <label >StartAt</label>
-                        <input 
-                        type="datetime-local" 
-                        className="form-control" 
-                        placeholder="StartAt"
-                        value={timeStart}
-                        onChange={(event) => setTimeStart(event.target.value)}    
-                        />
-                    </div>
-                    <div className='time'>
-                    <label >EndAt</label>
-                        <input 
-                        type="datetime-local" 
-                        className="form-control" 
-                        placeholder="EndAt"
-                        value={timeEnd}
-                        onChange={(event) => setTimeEnd(event.target.value)}    
-                        />
-                    </div>
-                    <div className='time'>
-                    <label >Time(minute)</label>
-                        <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Time-limit"
-                        value={totalTime}
-                        onChange={(event) => setTotalTime(event.target.value)}    
-                        />
-                    </div>
-                </div>
-                <div className="form-floating mb-3 three-layer">
-                    <div  className='time'>
-                    <label >Number Easy Question</label>
-                    <input 
-                    type="number" 
-                    min = {0}
-                    className="form-control" 
-                    placeholder="Weight"
-                    value={numberOfEasyQuestion}
-                    onChange={(event) => setNumberOfEasyQuestion(event.target.value)}    
-                    />
-                    </div>
-                    <div className='time'>
-                    <label >Number Medium Question</label>
-                    <input 
-                    type="number" 
-                    min = {0}
-                    className="form-control" 
-                    placeholder="Weight"
-                    value={numberOfMediumQuestion}
-                    onChange={(event) => setNumberOfMediumQuestion(event.target.value)}    
-                    />
-                    </div>
-                    <div className='time'>
-                    <label >Number Hard Question</label>
-                    <input 
-                    type="number" 
-                    min = {0}
-                    className="form-control" 
-                    placeholder="Weight"
-                    value={numberOfHardQuestion}
-                    onChange={(event) => setNumberOfHardQuestion(event.target.value)}    
-                    />
-                    </div>
-                </div>
-                <div className="form-floating mb-3">
-                </div>
-                <div className="form-floating mb-3">
-                </div>
-                <div className="form-floating mb-3">
-                </div>
-                <div className='my-3'>
-                </div>
-                <div className='mt-3'>
-                    <button 
-                    className='btn btn-warning' 
-                    onClick={() => handleSubmitQuiz()}
-                    >Save</button>
-                </div>
-                </fieldset>
+                    <fieldset className="border rounded-3 p-3" >
+                        <legend className="float-none w-auto px-3">Thêm mới bài trắc nghiệm</legend>
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Tên bài trắc nghiệm*"
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
+                            />
+                            <label>Tên bài trắc nghiệm*</label>
+                        </div>
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Trọng số điểm*"
+                                value={weight}
+                                onChange={(event) => setWeight(event.target.value)}
+                            />
+                            <label>Trọng số điểm(From 0.0 to 1.0)*</label>
+                        </div>
+                        <div className="form-floating mb-3 three-layer">
+                            <div className='time'>
+                                <label>Thời gian bắt đầu*</label>
+                                <input
+                                    type="datetime-local"
+                                    className="form-control"
+                                    placeholder="Thời gian bắt đầu*"
+                                    value={timeStart}
+                                    onChange={(event) => setTimeStart(event.target.value)}
+                                />
+                            </div>
+                            <div className='time'>
+                                <label>Thời gian kết thúc*</label>
+                                <input
+                                    type="datetime-local"
+                                    className="form-control"
+                                    placeholder="Thời gian kết thúc*"
+                                    value={timeEnd}
+                                    onChange={(event) => setTimeEnd(event.target.value)}
+                                />
+                            </div>
+                            <div className='time'>
+                                <label>Time(minute)</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Thời lượng làm bài*"
+                                    value={totalTime}
+                                    onChange={(event) => setTotalTime(event.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group-2">
+                            <label>Cho phép xem phương án trả lời đúng*</label>
+                            <input
+                                className="form-check"
+                                type="checkbox"
+                                checked={seeAnswer}
+                                onChange={() => setSeeAnswer(!seeAnswer)}
+                            />
+                        </div>
+                        <div className="form-floating mb-3 three-layer">
+                            {listLevel.map((item, index) => (
+                                <div className='time' key={index}>
+                                    <label>Number {item.level} Question*</label>
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        className="form-control"
+                                        placeholder="Number of questions"
+                                        value={option.find(opt => opt.levelId === item.id)?.numberOfLevelQuestion || ''}
+                                        onChange={(event) => handleOnChangeNumberLevelQuestion(event, item.id)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className='my-3'></div>
+                        <div className='mt-3'>
+                            <button
+                                className='btn btn-warning'
+                                onClick={() => handleSubmitQuiz()}
+                            >Lưu</button>
+                        </div>
+                    </fieldset>
                 </div>
                 <ToastContainer
                     position="top-right"
@@ -205,8 +239,7 @@ const ManageQuiz = (props) => {
                 />
             </div>
         </div>
-
-    )
-}
+    );
+};
 
 export default ManageQuiz;
